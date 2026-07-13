@@ -48,7 +48,13 @@ In this lab, you will learn how embedded AI Assistant in Cognos Analytics is hel
 
 4. Select Ship Date -> you will see suggested chart for ship date
 
-![Uploading image.png…]()
+<img width="413" height="562" alt="image" src="https://github.com/user-attachments/assets/2ca1bd9e-39f5-43b9-88e0-0257eba73d96" />
 
+5. Type "generate dashboard using this data source" -> you will see that AI will suggest relevant charts that are relevant with available data
+
+<img width="1569" height="829" alt="image" src="https://github.com/user-attachments/assets/0d9b1360-b83d-4550-8e81-9e4fca4f4785" />
+
+Disclaimer:
+Basic AI Assistant in Cognos Analytics is using NLP thus it has several limitation like understanding complex human language
 
 

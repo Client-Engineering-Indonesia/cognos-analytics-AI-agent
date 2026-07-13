@@ -32,6 +32,10 @@ In this lab, you will learn how embedded AI Assistant in Cognos Analytics is hel
 
 <img width="906" height="682" alt="image" src="https://github.com/user-attachments/assets/5e96c46d-8f9e-47a0-9d33-b35a1d4cd4e6" />
 
+8. We will use this asset in next sections so set it as My Favorites by clicking 3 dots icon -> select Add to Favorites
+
+<img width="463" height="253" alt="image" src="https://github.com/user-attachments/assets/72cbd4e1-f4f9-42c5-af32-f24430b821e9" />
+
 ## Use AI Assistant
 
 1. Click Assistant icon in top right side -> click Select My Data Source button

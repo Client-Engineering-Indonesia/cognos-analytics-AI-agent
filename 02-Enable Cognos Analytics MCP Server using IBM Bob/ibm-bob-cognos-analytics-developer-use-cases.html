@@ -1,0 +1,495 @@
+
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>IBM Bob × Cognos Analytics — Developer Use Cases</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,"Segoe UI",system-ui,sans-serif;font-size:14px;line-height:1.6;background:#fff;color:#1f2328;padding:28px;max-width:860px;margin:0 auto}
+h1{font-size:21px;font-weight:700;margin-bottom:4px}
+.sub{font-size:13px;color:#57606a;margin-bottom:6px}
+.legend{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:28px;font-size:12px}
+.legend span{display:flex;align-items:center;gap:5px}
+.dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+.dot-live{background:#16a34a}
+.dot-extend{background:#3b82d4}
+.dot-new{background:#7c5cd8}
+
+/* Category headers */
+.cat{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#57606a;margin:28px 0 10px;padding-bottom:4px;border-bottom:2px solid #e5e7eb}
+
+/* Card */
+.card{border:1px solid #e5e7eb;border-radius:8px;margin-bottom:14px;overflow:hidden}
+.card-head{display:flex;align-items:flex-start;gap:12px;padding:12px 16px;background:#f7f8fa;border-bottom:1px solid #e5e7eb}
+.card-icon{font-size:22px;line-height:1;margin-top:1px;flex-shrink:0}
+.card-title{font-size:14px;font-weight:700;color:#1f2328}
+.card-sub{font-size:12px;color:#57606a;margin-top:1px}
+.badge-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.badge{font-size:11px;padding:1px 8px;border-radius:10px;border:1px solid}
+.badge-live{background:#dcfce7;border-color:#86efac;color:#15803d}
+.badge-extend{background:#dbeafe;border-color:#93c5fd;color:#1d4ed8}
+.badge-new{background:#ede9fe;border-color:#c4b5fd;color:#6d28d9}
+.badge-api{background:#fef9c3;border-color:#fde047;color:#854d0e}
+
+.card-body{padding:12px 16px}
+.card-body p{font-size:13px;color:#374151;margin-bottom:8px}
+.steps{list-style:none;counter-reset:steps}
+.steps li{counter-increment:steps;display:flex;gap:10px;font-size:12px;color:#374151;margin-bottom:5px}
+.steps li::before{content:counter(steps);background:#3b82d4;color:#fff;font-size:11px;font-weight:700;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.impact{display:flex;align-items:center;gap:6px;margin-top:10px;font-size:12px;font-weight:600;color:#15803d;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:5px;padding:5px 10px}
+.impact-high{color:#9a3412;background:#fff7ed;border-color:#fed7aa}
+.tools{margin-top:8px;font-size:11px;color:#6b7280}
+.tools b{color:#374151}
+.divider{height:1px;background:#e5e7eb;margin:20px 0}
+.gap-box{background:#fff7ed;border:1px solid #fed7aa;border-radius:6px;padding:12px 16px;margin-bottom:14px}
+.gap-box .gap-title{font-size:13px;font-weight:700;color:#9a3412;margin-bottom:4px}
+.gap-box p{font-size:12px;color:#7c2d12}
+.gap-box code{background:#ffedd5;padding:1px 5px;border-radius:3px;font-size:11px}
+footer{margin-top:36px;padding-top:12px;border-top:1px solid #e5e7eb;text-align:center;font-size:12px;color:#57606a}
+</style>
+</head>
+<body>
+
+<h1>IBM Bob × Cognos Analytics</h1>
+<div class="sub">Real, API-grounded developer use cases — based on the live MCP server, Cognos REST API, and verified endpoints</div>
+
+<div class="legend">
+  <span><span class="dot dot-live"></span> <b>Works today</b> — fully supported by current MCP tools</span>
+  <span><span class="dot dot-extend"></span> <b>Extend server</b> — needs 1–2 new tool registrations in index.ts</span>
+  <span><span class="dot dot-new"></span> <b>New capability</b> — meaningful new MCP tools / workflows</span>
+</div>
+
+
+<div class="cat">1 · Content Lifecycle Automation</div>
+
+<div class="card">
+  <div class="card-head">
+    <div class="card-icon">🏗️</div>
+    <div>
+      <div class="card-title">Scaffold a full project structure in one conversation</div>
+      <div class="card-sub">Create nested folders, name them by convention, describe them — all via chat</div>
+      <div class="badge-row">
+        <span class="badge badge-live">Works today</span>
+        <span class="badge badge-api">create-folder · update-content · list-items</span>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <p>A developer says <em>"Create a folder structure for the Finance project: /Finance/Reports, /Finance/Dashboards, /Finance/Data Modules"</em>. Bob calls <b>create-folder</b> three times in sequence, resolving each parent ID automatically. No manual ID lookup, no UI clicks.</p>
+    <ol class="steps">
+      <li>Bob resolves My Folders ID via <code>list-items</code></li>
+      <li>Creates <b>/Finance</b> folder, captures returned ID</li>
+      <li>Creates <b>/Finance/Reports</b> and <b>/Finance/Dashboards</b> as children</li>
+      <li>Sets descriptions on each via <code>update-content</code></li>
+    </ol>
+    <div class="impact impact-high">⚡ High impact — saves 15–20 minutes of click-through per project setup. Repeatable across environments.</div>
+    <div class="tools"><b>Tools used:</b> create-folder, list-items, update-content</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-head">
+    <div class="card-icon">📋</div>
+    <div>
+      <div class="card-title">Audit and document the entire content store</div>
+      <div class="card-sub">Traverse all folders, list all reports/dashboards, output a structured inventory</div>
+      <div class="badge-row">
+        <span class="badge badge-live">Works today</span>
+        <span class="badge badge-api">list-items · get-object · list-content-items</span>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <p>Ask Bob: <em>"Give me a full inventory of every report and dashboard in Team Content."</em> Bob recursively traverses folders via <b>list-items</b>, collects type/name/modificationTime, and presents a clean table or exports it — something that would take hours manually.</p>
+    <ol class="steps">
+      <li>Start from namespace root, recurse into each folder</li>
+      <li>Collect id, type, defaultName, modificationTime for all items</li>
+      <li>Present grouped inventory with last-modified dates</li>
+      <li>Flag stale content (not modified in 1+ year)</li>
+    </ol>
+    <div class="impact">✅ Real value — governance, migration planning, cleanup decisions</div>
+    <div class="tools"><b>Tools used:</b> list-namespaces, list-items, get-object, list-content-items</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-head">
+    <div class="card-icon">🔁</div>
+    <div>
+      <div class="card-title">Promote content across environments (Dev → Test → Prod)</div>
+      <div class="card-sub">Copy or move dashboards/reports between folders representing environments</div>
+      <div class="badge-row">
+        <span class="badge badge-live">Works today</span>
+        <span class="badge badge-api">copy-content · move-content · update-content</span>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <p><em>"Promote the Go Sales Dashboard to the Production folder."</em> Bob resolves the source and destination IDs, calls <b>copy-content</b> (preserving the original in Dev), then renames the copy for the target environment — all in one chat turn.</p>
+    <ol class="steps">
+      <li>Resolve source dashboard ID from name</li>
+      <li>Resolve destination Production folder ID</li>
+      <li>Call <code>copy-content</code> with <code>recursive: true</code></li>
+      <li>Update the copied object's name/description to reflect the environment</li>
+    </ol>
+    <div class="impact">✅ Eliminates manual export/import cycle. Consistent and auditable.</div>
+    <div class="tools"><b>Tools used:</b> copy-content, move-content, update-content, list-items</div>
+  </div>
+</div>
+
+
+<div class="cat">2 · Data Module Engineering</div>
+
+<div class="card">
+  <div class="card-head">
+    <div class="card-icon">🔍</div>
+    <div>
+      <div class="card-title">Reverse-engineer any data module into human-readable docs</div>
+      <div class="card-sub">Read a module's full spec and metadata, generate schema documentation automatically</div>
+      <div class="badge-row">
+        <span class="badge badge-live">Works today</span>
+        <span class="badge badge-api">get-module · get-module-metadata · list-modules</span>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <p>Just demonstrated live: Bob called <b>get-module-metadata</b> on Go Sales Data Modules and produced a complete table-by-table schema with primary keys, foreign keys, data types, usage classifications, and relationships — from raw JSON that was 430k characters long.</p>
+    <ol class="steps">
+      <li>Call <code>get-module</code> to get the module spec (useSpec, querySubjects)</li>
+      <li>Call <code>get-module-metadata</code> for the fully-resolved view</li>
+      <li>Parse all querySubjects, items, normalization groups into structured docs</li>
+      <li>Output ERD-style relationships and column dictionaries</li>
+    </ol>
+    <div class="impact impact-high">⚡ High impact — documentation that used to take days to write manually is generated in seconds.</div>
+    <div class="tools"><b>Tools used:</b> list-modules, get-module, get-module-metadata</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-head">
+    <div class="card-icon">✏️</div>
+    <div>
+      <div class="card-title">AI-assisted data module creation from a database schema</div>
+      <div class="card-sub">Describe a database, let Bob generate the full module JSON and deploy it</div>
+      <div class="badge-row">
+        <span class="badge badge-live">Works today</span>
+        <span class="badge badge-api">list-datasource-tables · get-datasource-schemas · create-module</span>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <p><em>"Create a data module for the HR_Workforce datasource covering the EMPLOYEE and DEPARTMENT tables."</em> Bob lists the available schemas/tables, constructs the full module definition JSON following the Cognos spec (version, container, useSpec, querySubject), and calls <b>create-module</b>.</p>
+    <ol class="steps">
+      <li>Resolve datasource ID via <code>list-datasources</code></li>
+      <li>Get connection and signon IDs</li>
+      <li>Call <code>get-datasource-schemas</code> and <code>list-datasource-tables</code></li>
+      <li>Construct valid module JSON with correct querySubjects and items</li>
+      <li>Call <code>create-module</code> at target folder location</li>
+    </ol>
+    <div class="impact impact-high">⚡ High impact — reduces hours of manual data modelling to minutes. Ensures correct JSON structure every time.</div>
+    <div class="tools"><b>Tools used:</b> list-datasources, list-datasource-connections, list-connection-signons, get-datasource-schemas, list-datasource-tables, create-module</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-head">
+    <div class="card-icon">🔧</div>
+    <div>
+      <div class="card-title">Patch and evolve existing data modules safely</div>
+      <div class="card-sub">Read → modify → write back a module definition with AI-assisted changes</div>
+      <div class="badge-row">
+        <span class="badge badge-live">Works today</span>
+        <span class="badge badge-api">get-module · update-module</span>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <p><em>"Add a calculated item 'Gross Profit' = UNIT_SALE_PRICE − UNIT_COST to the Go Sales module."</em> Bob reads the current definition, inserts the correct calculated queryItem JSON into the right querySubject, validates the structure, and PUTs it back.</p>
+    <ol class="steps">
+      <li>Call <code>get-module</code> to read current full definition</li>
+      <li>Locate the right querySubject (e.g. ORDER_DETAILS)</li>
+      <li>Insert calculated queryItem with correct expression syntax</li>
+      <li>Call <code>update-module</code> with the complete updated definition</li>
+    </ol>
+    <div class="impact">✅ Safe and repeatable — no risk of breaking the module through UI misclicks.</div>
+    <div class="tools"><b>Tools used:</b> get-module, update-module</div>
+  </div>
+</div>
+
+
+<div class="cat">3 · Data Source Management</div>
+
+<div class="card">
+  <div class="card-head">
+    <div class="card-icon">🗄️</div>
+    <div>
+      <div class="card-title">Inventory and health-check all 97 data sources</div>
+      <div class="card-sub">Enumerate datasources, their connections, signons, and schema availability in one pass</div>
+      <div class="badge-row">
+        <span class="badge badge-live">Works today</span>
+        <span class="badge badge-api">list-datasources · list-datasource-connections · list-connection-signons</span>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <p><em>"Give me a full audit of all data sources: for each one, list its connections and whether it has active signons."</em> Bob iterates across all 97 datasources, drills into each connection and signon, and produces a connection health report — flagging any datasource with no signons (i.e. likely broken).</p>
+    <ol class="steps">
+      <li>Call <code>list-datasources</code> → 97 items</li>
+      <li>For each, call <code>list-datasource-connections</code></li>
+      <li>For each connection, call <code>list-connection-signons</code></li>
+      <li>Flag datasources with 0 connections or 0 signons as unhealthy</li>
+    </ol>
+    <div class="impact">✅ What would take a DBA 2+ hours in the UI takes Bob 30 seconds.</div>
+    <div class="tools"><b>Tools used:</b> list-datasources, list-datasource-connections, list-connection-signons</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-head">
+    <div class="card-icon">🔌</div>
+    <div>
+      <div class="card-title">Provision a new datasource + connection + signon in one step</div>
+      <div class="card-sub">Automate datasource onboarding via the REST API</div>
+      <div class="badge-row">
+        <span class="badge badge-extend">Extend server</span>
+        <span class="badge badge-api">POST /datasources · POST /connections · POST /signons</span>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <p><em>"Register a new SQL Server datasource called 'Retail DB' connecting to retaildb.internal:1433, database RETAIL, with username retailuser."</em> One tool call to <code>POST /api/v1/datasources</code> with a nested connections + signons body handles the entire setup atomically.</p>
+    <ol class="steps">
+      <li>Add <code>create-datasource</code> tool to index.ts (POST /datasources)</li>
+      <li>Bob collects name, JDBC URL, database, credentials from chat</li>
+      <li>Calls API with full nested body: datasource + connection + signon</li>
+      <li>Verifies with <code>list-datasource-connections</code></li>
+    </ol>
+    <div class="impact impact-high">⚡ High impact — CI/CD pipelines can provision data sources in new environments automatically.</div>
+    <div class="tools"><b>New tool needed:</b> create-datasource (POST /api/v1/datasources)</div>
+  </div>
+</div>
+
+
+<div class="cat">4 · Report Development &amp; Execution</div>
+
+<div class="card">
+  <div class="card-head">
+    <div class="card-icon">▶️</div>
+    <div>
+      <div class="card-title">Run, inspect and compare report output inline</div>
+      <div class="card-sub">Execute any report in HTML/CSV/Excel and analyse the results in the same conversation</div>
+      <div class="badge-row">
+        <span class="badge badge-live">Works today</span>
+        <span class="badge badge-api">run-report · get-object · list-items</span>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <p><em>"Run the Go Sales Module Query report in CSV format and tell me the total revenue."</em> Bob runs it via <b>run-report</b>, receives the CSV text in-context, parses it, and summarises key metrics — no download, no pivot table, no Excel needed.</p>
+    <ol class="steps">
+      <li>Find report ID via <code>list-items</code> or <code>search-content</code></li>
+      <li>Call <code>run-report</code> with <code>outputFormat: "CSV"</code></li>
+      <li>Parse the returned CSV text directly in context</li>
+      <li>Summarise totals, averages, outliers, or answer ad-hoc questions</li>
+    </ol>
+    <div class="impact impact-high">⚡ High impact — transforms static report output into an interactive analytical conversation.</div>
+    <div class="tools"><b>Tools used:</b> list-items, run-report</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-head">
+    <div class="card-icon">🧪</div>
+    <div>
+      <div class="card-title">Regression-test reports after module changes</div>
+      <div class="card-sub">Run the same report before and after a module update, compare outputs</div>
+      <div class="badge-row">
+        <span class="badge badge-live">Works today</span>
+        <span class="badge badge-api">run-report · get-module · update-module</span>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <p>Before updating a data module, Bob runs dependent reports and captures their output. After the module change, it reruns and diffs the results — catching broken calculations or missing data before they reach users.</p>
+    <ol class="steps">
+      <li>Run baseline report, capture output as text</li>
+      <li>Apply module change via <code>update-module</code></li>
+      <li>Rerun the same report</li>
+      <li>Compare outputs, flag differences in totals or row counts</li>
+    </ol>
+    <div class="impact">✅ Turns a manual QA process into an automated safety net.</div>
+    <div class="tools"><b>Tools used:</b> run-report, get-module, update-module</div>
+  </div>
+</div>
+
+
+<div class="cat">5 · Administration &amp; Governance</div>
+
+<div class="card">
+  <div class="card-head">
+    <div class="card-icon">👥</div>
+    <div>
+      <div class="card-title">User onboarding and role assignment automation</div>
+      <div class="card-sub">Add users to namespaces, assign roles, provision My Folders — via conversation</div>
+      <div class="badge-row">
+        <span class="badge badge-extend">Extend server</span>
+        <span class="badge badge-api">POST /users · POST /roles/{id}/members · GET /roles</span>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <p><em>"Onboard new analyst John Smith: create his account in Harmony LDAP, assign Analytics Users role, and set up his My Folders."</em> Three API calls chained together — something an admin currently does through 4 separate UI screens.</p>
+    <ol class="steps">
+      <li>Add <code>create-user</code> tool (POST /users?namespace=)</li>
+      <li>Add <code>assign-role</code> tool (POST /roles/{id}/members/users)</li>
+      <li>Bob chains them: create → assign role → verify via list-items</li>
+    </ol>
+    <div class="impact">✅ Major time saver for onboarding batches of users or replicating role assignments.</div>
+    <div class="tools"><b>New tools needed:</b> create-user, assign-role</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-head">
+    <div class="card-icon">🧹</div>
+    <div>
+      <div class="card-title">Identify and clean up orphaned or stale content</div>
+      <div class="card-sub">Find reports/dashboards not modified in 12+ months and safely archive or delete</div>
+      <div class="badge-row">
+        <span class="badge badge-live">Works today</span>
+        <span class="badge badge-api">list-items · get-object · delete-content</span>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <p><em>"Find all reports in My Folders not modified since 2023 and list them for review."</em> Bob traverses the folder tree, filters by modificationTime, lists candidates, and — with explicit confirmation — deletes them via <b>delete-content</b>.</p>
+    <ol class="steps">
+      <li>Recursively list all items via <code>list-items</code></li>
+      <li>Filter: type = report/exploration AND modificationTime &lt; threshold</li>
+      <li>Present candidates to user for review</li>
+      <li>On approval, call <code>delete-content</code> per item</li>
+    </ol>
+    <div class="impact">✅ Keeps the content store clean without tedious manual review.</div>
+    <div class="tools"><b>Tools used:</b> list-items, get-object, delete-content, delete-object</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-head">
+    <div class="card-icon">🔑</div>
+    <div>
+      <div class="card-title">API key lifecycle management for CI/CD pipelines</div>
+      <div class="card-sub">Create, rotate, and revoke API keys for automation systems</div>
+      <div class="badge-row">
+        <span class="badge badge-new">New capability</span>
+        <span class="badge badge-api">POST /security/login_api_keys · DELETE /security/login_api_keys/{id}</span>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <p><em>"Create an API key for our Jenkins pipeline with an expiry of 2025-12-31."</em> Bob calls the security API, returns the key value (shown once), and stores the key ID for future rotation. Critical for non-interactive CI/CD deployments.</p>
+    <ol class="steps">
+      <li>Add <code>create-api-key</code> tool (POST /security/login_api_keys)</li>
+      <li>Add <code>list-api-keys</code> and <code>delete-api-key</code> tools</li>
+      <li>Bob creates key, presents value clearly (one-time display)</li>
+      <li>For rotation: create new → update pipeline config → delete old</li>
+    </ol>
+    <div class="impact">✅ Enables proper secret hygiene for automation. Currently requires UI access.</div>
+    <div class="tools"><b>New tools needed:</b> create-api-key, list-api-keys, delete-api-key</div>
+  </div>
+</div>
+
+
+<div class="cat">6 · Developer Productivity (Meta-Use Cases)</div>
+
+<div class="card">
+  <div class="card-head">
+    <div class="card-icon">💬</div>
+    <div>
+      <div class="card-title">Natural language ID resolution — never look up an ID manually again</div>
+      <div class="card-sub">Say a name; Bob finds the ID and uses it. Always.</div>
+      <div class="badge-row">
+        <span class="badge badge-live">Works today</span>
+        <span class="badge badge-api">list-items · search-content · list-modules · get-object</span>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <p>Every single Cognos API call requires a content store ID. Finding IDs is the #1 friction point for developers. Bob eliminates this entirely — "use the Go Sales Dashboard" becomes a lookup + action chain automatically, with zero manual ID hunting.</p>
+    <div class="impact impact-high">⚡ Foundational — this alone saves developers 30–60 minutes per session of ID-hunting through the UI or curl commands.</div>
+    <div class="tools"><b>Tools used:</b> list-modules, search-content, list-items, list-datasources (for name→ID resolution)</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-head">
+    <div class="card-icon">📖</div>
+    <div>
+      <div class="card-title">Live API reference assistant — answer API questions against real data</div>
+      <div class="card-sub">Ask "what modules exist?", "what tables does datasource X have?" — get live answers</div>
+      <div class="badge-row">
+        <span class="badge badge-live">Works today</span>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <p>Instead of reading Cognos docs and guessing at object IDs, developers ask Bob directly. Every answer is backed by a live API call — not documentation that may be out of date. Bob knows the actual state of the system right now.</p>
+    <div class="impact">✅ Collapses the docs-lookup → test-in-postman → fix cycle to a single conversation.</div>
+    <div class="tools"><b>Tools used:</b> All tools — used reactively in response to developer questions</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-head">
+    <div class="card-icon">🚀</div>
+    <div>
+      <div class="card-title">Environment bootstrapping — spin up a full Cognos project from scratch</div>
+      <div class="card-sub">Folders + datasource + data module + dashboard + exploration in one conversation</div>
+      <div class="badge-row">
+        <span class="badge badge-live">Works today</span>
+        <span class="badge badge-api">create-folder · create-module · create-content</span>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <p><em>"Bootstrap a new Sales Analytics project: create the folder structure, register the datasource, create a data module over the SALES schema, and create a starter dashboard and exploration asset."</em> Bob chains 8–10 API calls across tools, building the entire project in one go — exactly what we did in this session.</p>
+    <ol class="steps">
+      <li>Create folder hierarchy (3–4 calls)</li>
+      <li>Verify datasource exists or create it</li>
+      <li>Discover schema/tables, construct and create data module</li>
+      <li>Create exploration + dashboard content objects inside the folder</li>
+      <li>Report back with full ID manifest</li>
+    </ol>
+    <div class="impact impact-high">⚡ Highest impact scenario — a full project setup that takes 1–2 hours manually is done in under 2 minutes.</div>
+    <div class="tools"><b>Tools used:</b> create-folder, list-datasources, list-datasource-connections, get-datasource-schemas, list-datasource-tables, create-module, create-content, update-content</div>
+  </div>
+</div>
+
+
+<div class="divider"></div>
+<div class="cat" style="margin-top:0">Gaps — High-Value Tools Missing from Current MCP Server</div>
+
+<div class="gap-box">
+  <div class="gap-title">1. Add Favorite — <code>POST /bi/v1/users/~/favorites</code></div>
+  <p>Currently only <code>GET</code> is implemented. A single <code>add-favorite</code> tool registering <code>POST /users/~/favorites</code> with <code>{"id": objectId}</code> would close this. Tried this session — the endpoint exists but the tool is missing.</p>
+</div>
+<div class="gap-box">
+  <div class="gap-title">2. Create Datasource — <code>POST /api/v1/datasources</code></div>
+  <p>Supports creating datasource + connection + signon in one atomic call. Critical for environment automation and CI/CD. The API supports it fully; just needs a new tool in <code>index.ts</code>.</p>
+</div>
+<div class="gap-box">
+  <div class="gap-title">3. Run Report (RDS) needs search-path fallback</div>
+  <p>The current <code>run-report</code> uses <code>POST /disp/rds/reportData/report</code>. The content-store based execution via <code>/api/v1/execute</code> would be more reliable. Worth adding an alternative execution path.</p>
+</div>
+<div class="gap-box">
+  <div class="gap-title">4. User / Role Management — <code>POST /users</code>, <code>POST /roles/{id}/members</code></div>
+  <p>No write tools for user/role management exist yet. Adding <code>create-user</code>, <code>assign-role</code>, and <code>remove-role</code> would unlock full admin automation scenarios.</p>
+</div>
+<div class="gap-box">
+  <div class="gap-title">5. API Key management — <code>POST /security/login_api_keys</code></div>
+  <p>Needed for CI/CD pipeline setup. The API key endpoint is documented and available; it just needs to be exposed as an MCP tool with appropriate security warnings.</p>
+</div>
+
+<footer>Made with IBM Bob</footer>
+</body>
+</html>

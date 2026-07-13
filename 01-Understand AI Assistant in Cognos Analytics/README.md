@@ -1,6 +1,6 @@
 # Understand AI Assistant in Cognos Analytics
 
-In this lab, you will learn how embedded AI Assistant in Cognos Analytics is helping you to do: 1) Create Data Module
+In this lab, you will learn how embedded AI Assistant in Cognos Analytics is helping you to do: 1) Create Data Module; and 2) Use Basic Feature of Assistant
 
 ## Create Data Module
 

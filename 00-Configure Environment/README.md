@@ -40,6 +40,10 @@ Here you will:
 
 <img width="1900" height="964" alt="image" src="https://github.com/user-attachments/assets/21ed1f2a-5fc8-49c1-8e97-b454737a44e7" />
 
+3. Ensure you have run `orchestrate chat start` to open watsonx orchestrate homepage
+
+<img width="1583" height="878" alt="image" src="https://github.com/user-attachments/assets/ad934a11-9f03-4f53-869c-616b2c078575" />
+
 ## Create MSSQL User
 
 1. From Start menu, open Microsoft SQL Server Management Studio -> login using Windows authentication

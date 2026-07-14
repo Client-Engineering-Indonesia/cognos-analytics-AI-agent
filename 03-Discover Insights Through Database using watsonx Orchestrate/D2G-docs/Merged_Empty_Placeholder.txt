@@ -1,0 +1,16 @@
+# D2G — Empty / Placeholder (Merged)
+# Tables: Fleet_Operations
+
+================================================================================
+# Fleet_Operations
+================================================================================
+
+## Overview
+This table returned 0 rows in the sample query. It is defined in the schema but contains no data (or data is filtered/empty).
+
+## Columns
+No sample data available. The table likely tracks fleet/vehicle operational metrics based on its name and the fleet-related columns seen in `Attrition_Study` (Age of Primary Truck, Miles Driven TTM).
+
+## Relationships
+- Likely links to `Employee` or `Organization` for vehicle assignments
+- May share `Date_ID` with the `Time` dimension

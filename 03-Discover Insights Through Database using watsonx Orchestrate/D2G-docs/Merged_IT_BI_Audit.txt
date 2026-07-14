@@ -1,0 +1,153 @@
+# D2G — IT / BI Audit (Merged)
+# Tables: IT_Fact, Run_Jobs, Run_Reports, View_Reports, User_Logins
+
+================================================================================
+# IT_Fact
+================================================================================
+
+## Overview
+A fact table for IT/BI system usage metrics. Tracks user sessions, report executions, server performance, and application usage across the BI infrastructure.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Day_ID | FK to Time (daily grain) |
+| Period | Peak or off-peak period |
+| Server | Server name (e.g. COGVMLN4) |
+| ServerFarm | Server farm type (e.g. AIX) |
+| ApplicationType | Type of application (e.g. BI) |
+| ServerLocation | Physical location of the server |
+| Application | Application name (e.g. "Procurement Analytics") |
+| Status | Execution status (Success/Failure) |
+| NoofRequests | Number of requests in the session |
+| User | Username |
+| NoofUsers | Number of users in the session |
+| ExecutionTime (Secs) | Execution time in seconds |
+| Session duration (Mins) | Session length in minutes |
+| CPUUsage | CPU utilisation |
+| Failures | Number of failures |
+
+## Sample Data
+- All sample rows are "Success" status, off-peak period, AIX server farm.
+- Applications include Procurement Analytics, Supply Chain, Financial Reporting, etc.
+- CPU usage is low (~0.08–0.18).
+
+## Relationships
+- `Day_ID` → `Time.Date_ID` (daily calendar grain)
+
+================================================================================
+# Run_Jobs
+================================================================================
+
+## Overview
+An audit/operational log table tracking BI job (batch report) executions. Each row captures a job step within a job run, including execution time, status, and the Cognos content store path of the job.
+
+## Columns
+| Column | Description |
+|---|---|
+| User name | User who ran the job |
+| Job name and path | Full Cognos content store path of the job definition |
+| Job status | Overall job status (Success/Failure) |
+| Job error details | Error message if failed |
+| Job execution time | Total job execution time (ms) |
+| Job step name and path | Path of individual job step |
+| Job step status | Status of the step |
+| Job step error details | Step-level error message |
+| Job step execution time | Step execution time (ms) |
+
+## Sample Data
+- All sample rows are from user "Bradford, Carol", job "CSA Enablements per Analyst".
+- All steps succeeded; execution times range 11,938–25,656 ms.
+- Same job run has multiple steps (one row per step).
+
+## Relationships
+- Standalone audit log; no foreign key relationships to other D2G tables
+- Related to `Run Reports`, `View Reports`, and `User Logins` as part of the BI usage audit suite
+
+================================================================================
+# Run_Reports
+================================================================================
+
+## Overview
+An audit/operational log table tracking individual report runs in the BI system. Each row records one report execution event with user, report path, timing, and status.
+
+## Columns
+| Column | Description |
+|---|---|
+| User name | User who ran the report |
+| Report name | Name of the report |
+| Report type | Type (e.g. "Report batchreportservice") |
+| Report search path | Full Cognos content store path |
+| Execution time | Execution time in milliseconds |
+| Month | Calendar month of execution |
+| Time stamp | Exact timestamp of execution |
+| Package | Folder path of the report |
+| Status | SUCCESS or FAILURE |
+| Error details | Error message if failed |
+
+## Sample Data
+- All sample rows are from user "Seninger, Glen" running "Can Opportunities Closed This Month".
+- All executions were successful; execution times ~5,173–5,311 ms.
+- Dates: Aug–Oct 2011.
+
+## Relationships
+- Standalone audit log; no foreign key relationships to other D2G tables
+- Part of the BI usage audit suite alongside `Run Jobs`, `View Reports`, `User Logins`
+
+================================================================================
+# View_Reports
+================================================================================
+
+## Overview
+An audit log table tracking report view events in the BI system. Similar to `Run Reports` but captures interactive viewing (not batch execution), including encoded URL-based report paths.
+
+## Columns
+| Column | Description |
+|---|---|
+| User name | Username viewing the report |
+| Report name | Encoded or plain report name |
+| Report type | Type of report object |
+| Report format | Output format (NULL in samples) |
+| Report search path | Cognos content store path or encoded URL ID |
+| Month | Calendar month label |
+| Time stamp | Timestamp of the view event |
+| Error details | Error if any |
+| Package | Parent folder path |
+| Status | Success or Failure |
+
+## Sample Data
+- Rows from Oct/Aug/Sep 2011.
+- Report names are Base64-encoded URLs in sample data.
+- All statuses are "Success".
+
+## Relationships
+- Standalone audit log; no foreign key relationships to other D2G tables
+- Part of the BI usage audit suite alongside `Run Jobs`, `Run Reports`, `User Logins`
+
+================================================================================
+# User_Logins
+================================================================================
+
+## Overview
+An audit log table tracking user login and session activity in the BI system. Each row represents one user session with logon/logoff timestamps and session duration.
+
+## Columns
+| Column | Description |
+|---|---|
+| User name | Username |
+| Month | Calendar month label |
+| Logon time | Timestamp when session started |
+| Session ID | Unique session identifier |
+| Logoff operation | Type of logoff (e.g. "Logoff") |
+| Logoff time | Timestamp when session ended |
+| Session duration | Session length in seconds |
+
+## Sample Data
+- All sample rows from Nov/2011.
+- Some sessions have 0 duration (instant logon/logoff or timeout).
+- Williams, Wanda had a 173-second session.
+
+## Relationships
+- Standalone audit log; no foreign key relationships to other D2G tables
+- Part of the BI usage audit suite alongside `Run Jobs`, `Run Reports`, `View Reports`

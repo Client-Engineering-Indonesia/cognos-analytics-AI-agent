@@ -1,0 +1,149 @@
+# D2G — Call Center (Merged)
+# Tables: Agents, Call_Center_Fact, Call_Severity, Group, Service_Type
+
+================================================================================
+# Agents
+================================================================================
+
+## Overview
+A dimension table describing call center agents. Each row represents one agent assigned to a specific call center location with a defined manager and team lead hierarchy.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Agent_ID | Business key for the agent |
+| Agent | Full name of the agent |
+| Manager | Full name of the agent's manager |
+| Team Lead | Full name of the team lead |
+| Call Center | Name of the call center the agent belongs to |
+| Territory | Geographic territory (e.g. North America) |
+| Country | Country of the call center |
+| City | City of the call center |
+
+## Sample Data
+- Agent IDs 1–5 all belong to "Maritime Operations" call center in Halifax, Canada.
+- All report to manager "Spencer Brett Franklin" under team lead "Lester Leon Barrett".
+
+## Relationships
+- `Agent_ID` → referenced by `Call_Center_Fact.Agent_ID` (fact table for call center metrics)
+
+================================================================================
+# Call_Center_Fact
+================================================================================
+
+## Overview
+The primary fact table for call center operations. Each row represents one call interaction event, linking agents, customers, products, call severity, and service type with detailed call performance metrics.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Agent_ID | FK to Agents |
+| Date_ID | FK to Time (date dimension) |
+| Group_ID | FK to Group (agent group/level) |
+| Product_ID | FK to Products |
+| Call_Severity_ID | FK to Call_Severity |
+| Service_Type_ID | FK to Service_Type |
+| Customer_ID | FK to Customer |
+| # Call | Number of calls |
+| # Completed | Completed calls count |
+| # Active Agent | Active agents at time of call |
+| # Terminated | Terminated calls |
+| Avg Hold Time | Average hold time (minutes) |
+| Call Duration | Total call duration (minutes) |
+| Call Costs | Cost of calls |
+| Hold Time Mising SLA / Hold Time with SLA | SLA compliance for hold time |
+| Call Duration missing SLA / Call Duration within SLA | SLA compliance for duration |
+| Quality Level | Quality score (0–1) |
+| Satisfaction Level | Customer satisfaction score (0–1) |
+| Tech Level | Technical resolution score (0–1) |
+
+## Sample Data
+- Calls span various agents, products, groups, and service types.
+- Quality and satisfaction levels typically range 0.7–1.0.
+
+## Relationships
+- `Agent_ID` → `Agents.Agent_ID`
+- `Date_ID` → `Time.Date_ID`
+- `Group_ID` → `Group.Group_ID`
+- `Product_ID` → `Products.Product_ID`
+- `Call_Severity_ID` → `Call_Severity.Call_Severity_ID`
+- `Service_Type_ID` → `Service_Type.Service_Type_ID`
+- `Customer_ID` → `Customer.Customer_ID`
+
+================================================================================
+# Call_Severity
+================================================================================
+
+## Overview
+A small lookup/dimension table defining severity levels for customer support calls. Contains only 3 rows.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Call_Severity_ID | Business key for the severity level |
+| Call_Severity | Label: High, Medium, or Low |
+
+## Sample Data
+| Call_Severity_ID | Call_Severity |
+|---|---|
+| 1 | High |
+| 2 | Medium |
+| 3 | Low |
+
+## Relationships
+- `Call_Severity_ID` → referenced by `Call_Center_Fact.Call_Severity_ID`
+
+================================================================================
+# Group
+================================================================================
+
+## Overview
+A small lookup/dimension table defining call center agent group levels. Categorises agents into sales or technical skill levels (Level 1–3).
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Group_ID | Business key for the group |
+| Group | Group label (e.g. "Level 1 - Sales", "Level 2 - Technical") |
+
+## Sample Data
+| Group_ID | Group |
+|---|---|
+| 1 | Level 1 - Sales |
+| 2 | Level 1 - Technical |
+| 3 | Level 2 - Sales |
+| 4 | Level 2 - Technical |
+| 5 | Level 3 |
+
+## Relationships
+- `Group_ID` → referenced by `Call_Center_Fact.Group_ID`
+
+================================================================================
+# Service_Type
+================================================================================
+
+## Overview
+A lookup/dimension table for customer service call types. Defines the various categories of support requests a customer can raise.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Service_Type_ID | Business key for the service type |
+| Service_Type | Type label (e.g. Billing Issue, Delivery Issue) |
+
+## Sample Data (first 5 of more)
+| Service_Type_ID | Service_Type |
+|---|---|
+| 1 | Billing Issue |
+| 2 | Contact Information Change |
+| 3 | Contract Cancellation Request |
+| 4 | Delivery Issue |
+| 5 | Functionality Question |
+
+## Relationships
+- `Service_Type_ID` → referenced by `Call_Center_Fact.Service_Type_ID`

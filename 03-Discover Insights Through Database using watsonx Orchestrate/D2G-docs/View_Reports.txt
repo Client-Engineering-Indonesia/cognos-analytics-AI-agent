@@ -1,0 +1,27 @@
+# View Reports
+
+## Overview
+An audit log table tracking report view events in the BI system. Similar to `Run Reports` but captures interactive viewing (not batch execution), including encoded URL-based report paths.
+
+## Columns
+| Column | Description |
+|---|---|
+| User name | Username viewing the report |
+| Report name | Encoded or plain report name |
+| Report type | Type of report object |
+| Report format | Output format (NULL in samples) |
+| Report search path | Cognos content store path or encoded URL ID |
+| Month | Calendar month label |
+| Time stamp | Timestamp of the view event |
+| Error details | Error if any |
+| Package | Parent folder path |
+| Status | Success or Failure |
+
+## Sample Data
+- Rows from Oct/Aug/Sep 2011.
+- Report names are Base64-encoded URLs in sample data.
+- All statuses are "Success".
+
+## Relationships
+- Standalone audit log; no foreign key relationships to other D2G tables
+- Part of the BI usage audit suite alongside `Run Jobs`, `Run Reports`, `User Logins`

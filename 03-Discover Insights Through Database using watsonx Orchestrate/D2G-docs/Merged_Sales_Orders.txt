@@ -1,0 +1,184 @@
+# D2G — Sales & Orders (Merged)
+# Tables: Order_Fact, CustomerLoyalty, Customer, Products, Channel, Geography
+
+================================================================================
+# Order_Fact
+================================================================================
+
+## Overview
+The primary sales order fact table. Each row represents a sales transaction combining product, customer, sales rep, and channel with full revenue, cost, margin, discount, and pricing details.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Date_ID | FK to Time |
+| Product_ID | FK to Products |
+| Customer_ID | FK to Customer |
+| Sales_ID | FK to Geography |
+| Channel_ID | FK to Channel |
+| Planned / Revenue / Variance / Variance % | Revenue plan vs actuals |
+| Gross Revenue | Pre-discount revenue |
+| Costs / Margin / Margin % | Profitability |
+| Discount / Discount % | Discount applied |
+| Units Ordered / Units Shipped | Volume |
+| Field18 / Field19 | Derived volume fields (÷5 of ordered/shipped) |
+| List Price / Sale Price / Unit Cost | Pricing |
+| Unit Cost | Cost per unit |
+
+## Sample Data
+- Product 28 (high value item, List Price ~$1,861) dominates first rows.
+- Revenues range from $13,230 to $55,827.
+- Margins can be negative (e.g. −$649, −$11,606) indicating loss-making orders.
+
+## Relationships
+- `Date_ID` → `Time.Date_ID`
+- `Product_ID` → `Products.Product_ID`
+- `Customer_ID` → `Customer.Customer_ID`
+- `Sales_ID` → `Geography.Sales_ID`
+- `Channel_ID` → `Channel.Channel_ID`
+
+================================================================================
+# CustomerLoyalty
+================================================================================
+
+## Overview
+A wide fact/analytical table combining product, customer, sales, and channel data with detailed revenue, cost, margin, discount, and RFM (Recency-Frequency-Monetary) loyalty scoring metrics. Used for customer segmentation and churn prediction.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID / Customer_ID | Customer reference |
+| Product_ID | FK to Products |
+| Date_ID | FK to Time |
+| Sales_ID | FK to Geography |
+| Channel_ID | FK to Channel |
+| Planned / Revenue / Gross Revenue / Variance / Variance % | Revenue planning vs actuals |
+| Costs / Margin / Margin % | Profitability |
+| Discount / Discount % | Discount applied |
+| Units Ordered / Units Shipped | Volume |
+| List Price / Sale Price / Unit Cost | Pricing |
+| OrderID | Order reference |
+| rfm_Recency / rfm_Frequency / rfm_Monetary | Raw RFM values |
+| Recency Score / Frequency Score / Monetary Score / RFM Score | RFM scoring (1–5 scale) |
+| Churned | Churn flag (0/1) |
+| $N-Churned / $NC-Churned / $RP-Churned | Churn probability scores |
+| PossibleRevenueLoss | Estimated revenue at risk from churn |
+| Product Category/Type, Customer Type, Credit Rating, etc. | Embedded dimension attributes |
+
+## Sample Data
+- All sample rows show Product "Computer Accessories" across different customers.
+- RFM scores vary widely (e.g. 122, 455, 155) indicating diverse loyalty segments.
+- Churned = 0 for all samples but churn probability varies (0.0002 to 0.46).
+
+## Relationships
+- `Customer_ID` → `Customer.Customer_ID`
+- `Product_ID` → `Products.Product_ID`
+- `Date_ID` → `Time.Date_ID`
+- `Sales_ID` → `Geography.Sales_ID`
+- `Channel_ID` → `Channel.Channel_ID`
+
+================================================================================
+# Customer
+================================================================================
+
+## Overview
+A dimension table for customers. Each row represents a customer account with classification, geographic, credit, and sales representative details.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Customer_ID | Business key for the customer |
+| Customer | Customer name |
+| Customer Type No / Customer Type | Type classification (e.g. Retail, Internet Direct, Branded Stores, Entertainment Venues) |
+| Customer Code | Numeric customer code |
+| Credit Rating | High, Medium, or Low |
+| Active | Y/N flag |
+| Country / State / City / Address | Geographic location |
+| Status | Active or Inactive |
+| Sales Rep ID / Sales Rep | Assigned sales representative |
+| Receivables ID / Receivables Analyst | Accounts receivable contact |
+
+## Sample Data
+- Customers span Germany, Italy, Ireland, Poland — international scope.
+- Types include Entertainment Venues, Retail, Internet Direct, Branded Stores.
+
+## Relationships
+- `Customer_ID` → referenced by `Call_Center_Fact.Customer_ID`, `Customer_Service_Fact.Customer_ID`, `CustomerLoyalty.Customer_ID`, `Finance_Fact.Customer_ID`, `Order_Fact.Customer_ID`, `Pipeline_Fact.Customer_ID`, `Procurement_Fact` (indirect)
+
+================================================================================
+# Products
+================================================================================
+
+## Overview
+A dimension table for products sold and purchased. Organises products into a three-level hierarchy: Category → Type → Product.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Product_ID | Business key for the product |
+| Product Category No / Product Category | Top-level category (e.g. Computers) |
+| Product Type No / Product Type | Mid-level type (e.g. Computers & Tablets) |
+| Product No | Numeric product code |
+| Product | Product name (e.g. Computer Accessories, Desktops, Laptops) |
+| Product Category_Lang / Product Type_Lang / Product_Lang | Multi-language labels (null in sample data) |
+
+## Sample Data
+- All 5 sample products are in "Computers" → "Computers & Tablets" category/type.
+- Products include: Computer Accessories, Desktops, Laptops, Netbooks, Tablets.
+
+## Relationships
+- `Product_ID` → referenced by `Call_Center_Fact.Product_ID`, `Customer_Service_Fact.Product_ID`, `CustomerLoyalty.Product_ID`, `Finance_Fact` (indirect), `Order_Fact.Product_ID`, `Pipeline_Fact.Product_ID`, `Procurement_Fact.Product_ID`
+
+================================================================================
+# Channel
+================================================================================
+
+## Overview
+A small lookup/dimension table for sales channels. Contains 3 rows representing the available distribution channels.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Channel_ID | Business key for the channel |
+| Channel | Channel name: Direct, Retail, or Internet |
+
+## Sample Data
+| Channel_ID | Channel |
+|---|---|
+| 1 | Direct |
+| 2 | Retail |
+| 3 | Internet |
+
+## Relationships
+- `Channel_ID` → referenced by `CustomerLoyalty.Channel_ID`, `Order_Fact.Channel_ID`, `Pipeline_Fact` (implicit via Sales)
+
+================================================================================
+# Geography
+================================================================================
+
+## Overview
+A dimension table for sales territories and sales representatives. Maps a `Sales_ID` to a territory, country, province, city, and assigned sales rep with their employee ID.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Sales_ID | Business key for the sales territory/rep |
+| Territory | High-level territory name (e.g. Europe) |
+| Country | Country |
+| Province | Province or region |
+| City | City |
+| Sales Rep | Name of the sales representative |
+| Employee ID | FK to Employee (numeric employee ID) |
+
+## Sample Data
+- First 5 rows all belong to the Europe territory (England and Scotland).
+- Sales reps include Paul Pierce, Pablo Ruiz, Tom Jones, Allison MacBrath, Gary Trent.
+
+## Relationships
+- `Sales_ID` → referenced by `CustomerLoyalty.Sales_ID`, `Customer_Service_Fact.Sales_ID`, `Order_Fact.Sales_ID`, `Pipeline_Fact.Sales_ID`
+- `Employee ID` → `Employee.Employee ID`

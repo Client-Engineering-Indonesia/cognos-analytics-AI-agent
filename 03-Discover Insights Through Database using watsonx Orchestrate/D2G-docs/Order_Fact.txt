@@ -1,0 +1,34 @@
+# Order_Fact
+
+## Overview
+The primary sales order fact table. Each row represents a sales transaction combining product, customer, sales rep, and channel with full revenue, cost, margin, discount, and pricing details.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Date_ID | FK to Time |
+| Product_ID | FK to Products |
+| Customer_ID | FK to Customer |
+| Sales_ID | FK to Geography |
+| Channel_ID | FK to Channel |
+| Planned / Revenue / Variance / Variance % | Revenue plan vs actuals |
+| Gross Revenue | Pre-discount revenue |
+| Costs / Margin / Margin % | Profitability |
+| Discount / Discount % | Discount applied |
+| Units Ordered / Units Shipped | Volume |
+| Field18 / Field19 | Derived volume fields (÷5 of ordered/shipped) |
+| List Price / Sale Price / Unit Cost | Pricing |
+| Unit Cost | Cost per unit |
+
+## Sample Data
+- Product 28 (high value item, List Price ~$1,861) dominates first rows.
+- Revenues range from $13,230 to $55,827.
+- Margins can be negative (e.g. −$649, −$11,606) indicating loss-making orders.
+
+## Relationships
+- `Date_ID` → `Time.Date_ID`
+- `Product_ID` → `Products.Product_ID`
+- `Customer_ID` → `Customer.Customer_ID`
+- `Sales_ID` → `Geography.Sales_ID`
+- `Channel_ID` → `Channel.Channel_ID`

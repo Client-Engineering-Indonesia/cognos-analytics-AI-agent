@@ -1,0 +1,21 @@
+# Organization
+
+## Overview
+A dimension table defining the corporate organizational hierarchy. Maps `Org_ID` to three levels of the organisation tree.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Org_ID | Business key for the organisation unit |
+| Organization_Level1 | Top-level (e.g. Corporate) |
+| Organization_Level2 | Second level (e.g. Sales and Service, Marketing) |
+| Organization_Level3 | Third level (e.g. Worldwide Sales, Services, Business Development) |
+
+## Sample Data
+- All rows roll up to "Corporate" at Level 1.
+- Level 2 includes "Sales and Service" and "Marketing".
+- Level 3 includes Worldwide Sales, Services, Business Development, Demand Generation, Events.
+
+## Relationships
+- `Org_ID` → referenced by `Finance_Fact.Org_ID`, `Procurement_Fact.Org_ID`

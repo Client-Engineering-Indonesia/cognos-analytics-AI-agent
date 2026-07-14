@@ -1,0 +1,23 @@
+# Service_Type
+
+## Overview
+A lookup/dimension table for customer service call types. Defines the various categories of support requests a customer can raise.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Service_Type_ID | Business key for the service type |
+| Service_Type | Type label (e.g. Billing Issue, Delivery Issue) |
+
+## Sample Data (first 5 of more)
+| Service_Type_ID | Service_Type |
+|---|---|
+| 1 | Billing Issue |
+| 2 | Contact Information Change |
+| 3 | Contract Cancellation Request |
+| 4 | Delivery Issue |
+| 5 | Functionality Question |
+
+## Relationships
+- `Service_Type_ID` → referenced by `Call_Center_Fact.Service_Type_ID`

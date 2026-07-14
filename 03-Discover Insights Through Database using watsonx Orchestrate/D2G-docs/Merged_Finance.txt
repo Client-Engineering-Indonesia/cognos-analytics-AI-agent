@@ -1,0 +1,117 @@
+# D2G — Finance (Merged)
+# Tables: Finance_Fact, Fiscal_Period, Organization, Vendor
+
+================================================================================
+# Finance_Fact
+================================================================================
+
+## Overview
+The primary financial fact table. Each row captures a financial period snapshot per customer, organization, and vendor — including P&L, balance sheet ratios, payables/receivables, and cash flow metrics.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Customer_ID | FK to Customer |
+| Date_ID | FK to Fiscal_Period |
+| Org_ID | FK to Organization |
+| Vendor_ID | FK to Vendor |
+| Total Revenue | Total revenue |
+| Cost of Goods Sold | COGS |
+| Gross Profit | Revenue minus COGS |
+| Operating Expense | OpEx |
+| Net Income | Gross Profit minus OpEx |
+| Budget / Variance | Budget vs actual |
+| Current Assets / Current Liabilities | Balance sheet items |
+| Opening Inventory / Closing Inventory | Inventory values |
+| Inventory Turnover / Current Ratio / Quick Ratio | Liquidity ratios |
+| Invoice Amt / Payment Amt / Late Payment | AR/AP metrics |
+| DSO / DPO | Days Sales Outstanding / Days Payable Outstanding |
+| # Invoice / # Open Invoice / # Payment | Transaction counts |
+| Cash Inflow / Cash Outflow | Cash flow |
+| Discounts Offered / Discount Taken / Discount Refused | Discount tracking |
+
+## Sample Data
+- Net income ranges from negative (−$18,183) to positive ($35,669) per period.
+- DSO ~51–72 days, DPO ~49–68 days.
+
+## Relationships
+- `Customer_ID` → `Customer.Customer_ID`
+- `Date_ID` → `Fiscal_Period.Date_ID`
+- `Org_ID` → `Organization.Org_ID`
+- `Vendor_ID` → `Vendor.Vendor_ID`
+
+================================================================================
+# Fiscal_Period
+================================================================================
+
+## Overview
+A fiscal calendar dimension table. Maps `Date_ID` values to fiscal year, quarter, and month labels (using "FY" prefix). Used specifically by financial fact tables.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Date_ID | Business key for the fiscal period |
+| Year | Fiscal year label (e.g. "FY09") |
+| Quarter No / Quarter | Quarter number and label (e.g. "Q1/FY09") |
+| Month No / Month | Month number and label (e.g. "P01/FY09") |
+
+## Sample Data
+- Fiscal year starts at FY09 (2009).
+- Months labelled as P01 through P12 within each fiscal year.
+
+## Relationships
+- `Date_ID` → referenced by `Finance_Fact.Date_ID`
+- Note: Different from `Time` and `HR_Calendar` — this is the fiscal calendar used for finance reporting
+
+================================================================================
+# Organization
+================================================================================
+
+## Overview
+A dimension table defining the corporate organizational hierarchy. Maps `Org_ID` to three levels of the organisation tree.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Org_ID | Business key for the organisation unit |
+| Organization_Level1 | Top-level (e.g. Corporate) |
+| Organization_Level2 | Second level (e.g. Sales and Service, Marketing) |
+| Organization_Level3 | Third level (e.g. Worldwide Sales, Services, Business Development) |
+
+## Sample Data
+- All rows roll up to "Corporate" at Level 1.
+- Level 2 includes "Sales and Service" and "Marketing".
+- Level 3 includes Worldwide Sales, Services, Business Development, Demand Generation, Events.
+
+## Relationships
+- `Org_ID` → referenced by `Finance_Fact.Org_ID`, `Procurement_Fact.Org_ID`
+
+================================================================================
+# Vendor
+================================================================================
+
+## Overview
+A dimension table for suppliers/vendors. Each row represents one vendor with geographic and classification details. Used in procurement and financial transactions.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Vendor_ID | Business key for the vendor |
+| Vendor | Vendor company name |
+| Vendor Type | Classification (all "Not Applicable" in sample data) |
+| Country | Country of the vendor |
+| City | City |
+| State/Province | State or province |
+| Vendor Address | Street address |
+
+## Sample Data
+- IDs 1–4 based in Australia (St. Kilda, Perth).
+- IDs 5–10 based in Canada (Victoria, St. John's, Ottawa).
+- All vendor types are "Not Applicable".
+
+## Relationships
+- `Vendor_ID` → referenced by `Finance_Fact.Vendor_ID`, `Procurement_Fact.Vendor_ID`

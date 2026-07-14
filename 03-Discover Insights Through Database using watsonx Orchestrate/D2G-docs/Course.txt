@@ -1,0 +1,23 @@
+# Course
+
+## Overview
+A dimension table describing training courses available to employees. Categorises courses by type, delivery method, developmental program, and whether they are internal or external.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Course_ID | Business key for the course |
+| Course | Course name (e.g. "Advanced Sales Training") |
+| Course Type | Category: Sales Skill, Technical Skill, Leadership |
+| Delivery Method | How delivered (e.g. Classroom) |
+| Developmental Program | Program grouping (e.g. "Sales Core") |
+| Course Location | Where held: Head Office or Field Office |
+| Internal/External Course | Whether run internally or by an external provider |
+
+## Sample Data
+- Courses include sales, technical, and leadership training.
+- All sample rows use Classroom delivery.
+
+## Relationships
+- `Course_ID` → referenced by `Training_Fact.Course_ID`

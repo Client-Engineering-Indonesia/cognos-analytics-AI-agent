@@ -1,0 +1,26 @@
+# Customer
+
+## Overview
+A dimension table for customers. Each row represents a customer account with classification, geographic, credit, and sales representative details.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Customer_ID | Business key for the customer |
+| Customer | Customer name |
+| Customer Type No / Customer Type | Type classification (e.g. Retail, Internet Direct, Branded Stores, Entertainment Venues) |
+| Customer Code | Numeric customer code |
+| Credit Rating | High, Medium, or Low |
+| Active | Y/N flag |
+| Country / State / City / Address | Geographic location |
+| Status | Active or Inactive |
+| Sales Rep ID / Sales Rep | Assigned sales representative |
+| Receivables ID / Receivables Analyst | Accounts receivable contact |
+
+## Sample Data
+- Customers span Germany, Italy, Ireland, Poland — international scope.
+- Types include Entertainment Venues, Retail, Internet Direct, Branded Stores.
+
+## Relationships
+- `Customer_ID` → referenced by `Call_Center_Fact.Customer_ID`, `Customer_Service_Fact.Customer_ID`, `CustomerLoyalty.Customer_ID`, `Finance_Fact.Customer_ID`, `Order_Fact.Customer_ID`, `Pipeline_Fact.Customer_ID`, `Procurement_Fact` (indirect)

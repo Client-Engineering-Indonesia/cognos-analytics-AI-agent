@@ -1,0 +1,163 @@
+# D2G — HR & Workforce (Merged)
+# Tables: Employee, HR_Fact, Workforce_Fact, Attrition_Study, HR_Calendar
+
+================================================================================
+# Employee
+================================================================================
+
+## Overview
+A dimension table for employees. Each row represents one employee with full demographic, role, organizational, and geographic profile.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Employee_ID | Business key for the employee |
+| Employee / Employee Name | Employee name |
+| Employee ID | Numeric employee ID |
+| Age | Age in years (decimal) |
+| Date of Birth | DOB |
+| Gender | Male/Female |
+| Ethnic Group | Ethnicity |
+| Marital Status | Marital status (may be null) |
+| Disabled Flag | Disability flag (may be null) |
+| Job Family / Job / Position | Role classification |
+| Original Hire Date | Date first hired |
+| Geography / Country / Location / Town or City | Location details |
+| Organization / Organization Class / Organization Type | Org hierarchy |
+| Tenure | Tenure band (e.g. "(5) 10+", "(4) 5 to <10") |
+
+## Sample Data
+- Employees span France, UK, Canada, USA.
+- Job families include Production and Operations.
+- Tenure bands range from 5–10+ years.
+
+## Relationships
+- `Employee_ID` → referenced by `HR_Fact.Employee_ID`, `Workforce_Fact.Employee_ID`, `Attrition_Study.Employee_ID`, `Recruiting_Fact.Employee_ID`, `Training_Fact.Employee_ID`
+- `Employee ID` (numeric) → referenced by `Geography.Employee ID`
+
+================================================================================
+# HR_Fact
+================================================================================
+
+## Overview
+A fact table for core HR metrics per employee per period. Tracks headcount, salary, separations, promotions, and performance distribution over time.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Date_ID | FK to HR_Calendar |
+| Employee_ID | FK to Employee |
+| Active Headcount | 1 if active, 0 if not |
+| Headcount | Total headcount count |
+| Annual Salary / Avg Salary Amt | Compensation metrics |
+| # Involuntary Separation / # Voluntary Separation / # Separation | Separation counts |
+| Separation % | Separation rate |
+| # Promotion / Promotion % | Promotion metrics |
+| # High Performers / # Steady Performers / # Low Performers | Performance buckets |
+| High Performers % / Steady Performers % / Low Performers % | Performance distribution ratios |
+
+## Sample Data
+- Each row is one employee for one period.
+- Salaries range from $41,300 to $142,789.
+- Performance is categorised as High, Steady, or Low — one flag set per row.
+
+## Relationships
+- `Date_ID` → `HR_Calendar.Date_ID`
+- `Employee_ID` → `Employee.Employee_ID`
+
+================================================================================
+# Workforce_Fact
+================================================================================
+
+## Overview
+An extended HR fact table covering workforce planning metrics. Builds on `HR_Fact` with additional succession planning columns. Each row is one employee for one HR calendar period.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Date_ID | FK to HR_Calendar |
+| Employee_ID | FK to Employee |
+| Active Headcount | 1 if active |
+| Headcount | Total headcount |
+| Annual Salary / Avg Salary Amt | Compensation |
+| # Involuntary Separation / # Voluntary Separation / # Separation | Separation counts |
+| Separation % / Promotion % | Rates |
+| # High Performers / # Steady Performers / # Low Performers | Performance buckets |
+| High Performers % / Steady Performers % / Low Performers % | Performance distribution |
+| # Successor | Number of identified successors |
+| # Successor Required | Number of positions requiring a successor |
+| # Successor Program | Succession programs in place |
+| # Found Successor Positions | Positions with successors found |
+
+## Sample Data
+- Salaries range $81,040–$127,980.
+- All sample rows have 0 successor metrics (succession planning not yet populated).
+- Performance distribution: rows are flagged as High, Steady, or Low performers.
+
+## Relationships
+- `Date_ID` → `HR_Calendar.Date_ID`
+- `Employee_ID` → `Employee.Employee_ID`
+- Superset of `HR_Fact` — adds succession planning columns
+
+================================================================================
+# Attrition_Study
+================================================================================
+
+## Overview
+A denormalized analytical table (blended fact/dimension) capturing employee attrition, performance, training, and fleet metrics in a single wide row per employee event. Used for workforce analytics and predictive attrition modelling.
+
+## Columns
+| Column | Description |
+|---|---|
+| Employee_ID | Foreign key to Employee |
+| Active Headcount | 1 if currently active, 0 if separated |
+| # Separation | Number of separations |
+| # Involuntary Separation | Count of involuntary separations |
+| # Voluntary Separation | Count of voluntary separations |
+| Performance | Performance score |
+| Tenure | Tenure in months |
+| Age at Metric Date | Age in months at measurement date |
+| Annual Salary | Annual compensation |
+| Job Family / Job / Position | Role classification |
+| Geography / Country / Location / Town or City | Location details |
+| Gender / Ethnic Group | Demographic attributes |
+| Organization / Organization Class / Organization Type | Org hierarchy |
+| Training Hours/Cost/Score/Duration/# Course | Training metrics (overall + by type: Technical, Leadership, Sales) |
+| Age of Primary Truck | Age of assigned fleet vehicle |
+| Miles Driven TTM (k) | Miles driven in trailing twelve months (thousands) |
+| $E-# Separation | Predicted probability of separation |
+
+## Sample Data
+- Rows cover employees across Europe and North America in Production jobs.
+- Many employees have zero training (0 hours, 0 cost).
+
+## Relationships
+- `Employee_ID` → `Employee.Employee_ID`
+- Overlaps dimensionally with `HR_Fact` and `Workforce_Fact` but is a standalone analytical extract
+
+================================================================================
+# HR_Calendar
+================================================================================
+
+## Overview
+A calendar dimension for HR reporting. Maps `Date_ID` values to calendar year, quarter, and month using standard calendar year (not fiscal). Used specifically by HR fact tables.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Date_ID | Business key for the period |
+| Year | Calendar year (e.g. 2009) |
+| Quarter No / Quarter | Quarter number and label (e.g. "Q1/2009") |
+| Month No / Month | Month number and name (e.g. "January") |
+
+## Sample Data
+- Starts from January 2009.
+- Month names are spelled out (January, February...) unlike `Fiscal_Period` which uses "P01/FY09".
+
+## Relationships
+- `Date_ID` → referenced by `HR_Fact.Date_ID` and `Workforce_Fact.Date_ID`
+- Parallel to `Fiscal_Period` (finance) and `Time` (daily operations) — each serves a different subject area

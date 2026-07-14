@@ -1,0 +1,37 @@
+# Finance_Fact
+
+## Overview
+The primary financial fact table. Each row captures a financial period snapshot per customer, organization, and vendor — including P&L, balance sheet ratios, payables/receivables, and cash flow metrics.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Customer_ID | FK to Customer |
+| Date_ID | FK to Fiscal_Period |
+| Org_ID | FK to Organization |
+| Vendor_ID | FK to Vendor |
+| Total Revenue | Total revenue |
+| Cost of Goods Sold | COGS |
+| Gross Profit | Revenue minus COGS |
+| Operating Expense | OpEx |
+| Net Income | Gross Profit minus OpEx |
+| Budget / Variance | Budget vs actual |
+| Current Assets / Current Liabilities | Balance sheet items |
+| Opening Inventory / Closing Inventory | Inventory values |
+| Inventory Turnover / Current Ratio / Quick Ratio | Liquidity ratios |
+| Invoice Amt / Payment Amt / Late Payment | AR/AP metrics |
+| DSO / DPO | Days Sales Outstanding / Days Payable Outstanding |
+| # Invoice / # Open Invoice / # Payment | Transaction counts |
+| Cash Inflow / Cash Outflow | Cash flow |
+| Discounts Offered / Discount Taken / Discount Refused | Discount tracking |
+
+## Sample Data
+- Net income ranges from negative (−$18,183) to positive ($35,669) per period.
+- DSO ~51–72 days, DPO ~49–68 days.
+
+## Relationships
+- `Customer_ID` → `Customer.Customer_ID`
+- `Date_ID` → `Fiscal_Period.Date_ID`
+- `Org_ID` → `Organization.Org_ID`
+- `Vendor_ID` → `Vendor.Vendor_ID`

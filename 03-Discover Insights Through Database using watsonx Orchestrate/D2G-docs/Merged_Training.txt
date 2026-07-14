@@ -1,0 +1,88 @@
+# D2G — Training (Merged)
+# Tables: Training_Fact, Course, Enrollment_Status
+
+================================================================================
+# Training_Fact
+================================================================================
+
+## Overview
+A fact table for employee training activity. Each row records a training enrollment event per employee, course, and date — tracking cost, duration, score, and program completion.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Course_ID | FK to Course |
+| Date_ID | FK to Time |
+| Employee_ID | FK to Employee |
+| Enrollment_Status | FK to Enrollment_Status (stored as numeric ID) |
+| # Course | Number of courses taken |
+| Course Duration | Duration of course (hours) |
+| Course Score | Score achieved (0–100) |
+| Training Hours | Total training hours |
+| Training Cost | Cost of training |
+| # Program | Number of programs |
+| # Program Enrollment / # Program Completion | Program-level tracking |
+
+## Sample Data
+- Courses 1–5 across employees 989, 1162, 962, 1025, 524.
+- Enrollment statuses 1–5 (Completed, Dev Complete, Dropped, Failed, In Progress) and 11.
+- Costs range from $832 to $2,229 per enrollment.
+
+## Relationships
+- `Course_ID` → `Course.Course_ID`
+- `Date_ID` → `Time.Date_ID`
+- `Employee_ID` → `Employee.Employee_ID`
+- `Enrollment_Status` → `Enrollment_Status.Enrollment_ID`
+
+================================================================================
+# Course
+================================================================================
+
+## Overview
+A dimension table describing training courses available to employees. Categorises courses by type, delivery method, developmental program, and whether they are internal or external.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Course_ID | Business key for the course |
+| Course | Course name (e.g. "Advanced Sales Training") |
+| Course Type | Category: Sales Skill, Technical Skill, Leadership |
+| Delivery Method | How delivered (e.g. Classroom) |
+| Developmental Program | Program grouping (e.g. "Sales Core") |
+| Course Location | Where held: Head Office or Field Office |
+| Internal/External Course | Whether run internally or by an external provider |
+
+## Sample Data
+- Courses include sales, technical, and leadership training.
+- All sample rows use Classroom delivery.
+
+## Relationships
+- `Course_ID` → referenced by `Training_Fact.Course_ID`
+
+================================================================================
+# Enrollment_Status
+================================================================================
+
+## Overview
+A small lookup/dimension table for training course enrollment statuses. Defines all possible states a training enrollment can be in.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Enrollment_ID | Business key for the status |
+| Enrollment Status | Status label |
+
+## Sample Data
+| Enrollment_ID | Enrollment Status |
+|---|---|
+| 1 | Completed |
+| 2 | Development Course Complete |
+| 3 | Dropped |
+| 4 | Failed |
+| 5 | In Progress |
+
+## Relationships
+- `Enrollment_ID` → referenced by `Training_Fact.Enrollment_Status` (stored as numeric ID)

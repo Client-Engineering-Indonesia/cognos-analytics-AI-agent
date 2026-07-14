@@ -1,0 +1,21 @@
+# HR_Calendar
+
+## Overview
+A calendar dimension for HR reporting. Maps `Date_ID` values to calendar year, quarter, and month using standard calendar year (not fiscal). Used specifically by HR fact tables.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Date_ID | Business key for the period |
+| Year | Calendar year (e.g. 2009) |
+| Quarter No / Quarter | Quarter number and label (e.g. "Q1/2009") |
+| Month No / Month | Month number and name (e.g. "January") |
+
+## Sample Data
+- Starts from January 2009.
+- Month names are spelled out (January, February...) unlike `Fiscal_Period` which uses "P01/FY09".
+
+## Relationships
+- `Date_ID` → referenced by `HR_Fact.Date_ID` and `Workforce_Fact.Date_ID`
+- Parallel to `Fiscal_Period` (finance) and `Time` (daily operations) — each serves a different subject area

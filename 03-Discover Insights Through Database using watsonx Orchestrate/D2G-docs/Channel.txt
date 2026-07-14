@@ -1,0 +1,21 @@
+# Channel
+
+## Overview
+A small lookup/dimension table for sales channels. Contains 3 rows representing the available distribution channels.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Channel_ID | Business key for the channel |
+| Channel | Channel name: Direct, Retail, or Internet |
+
+## Sample Data
+| Channel_ID | Channel |
+|---|---|
+| 1 | Direct |
+| 2 | Retail |
+| 3 | Internet |
+
+## Relationships
+- `Channel_ID` → referenced by `CustomerLoyalty.Channel_ID`, `Order_Fact.Channel_ID`, `Pipeline_Fact` (implicit via Sales)

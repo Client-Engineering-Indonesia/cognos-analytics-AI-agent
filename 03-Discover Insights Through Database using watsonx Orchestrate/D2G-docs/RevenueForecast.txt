@@ -1,0 +1,27 @@
+# RevenueForecast
+
+## Overview
+A time-series forecast table for gross revenue and units ordered. Mirrors the structure of `ReturnsForecast` but for revenue and order volume. Used for revenue planning and predictive analytics.
+
+## Columns
+| Column | Description |
+|---|---|
+| Year / Month No | Calendar period of the actuals |
+| Record_Count | Number of underlying transactions |
+| Gross Revenue_Sum / Gross Revenue_Mean | Actual gross revenue (total and average) |
+| Units Ordered_Sum / Units Ordered_Mean | Actual units ordered (total and average) |
+| $TI_TimeIndex / $TI_TimeLabel / $TI_Year / $TI_Month | Time series index and label |
+| $TI_Future | Flag: 0 = historical, 1 = future forecast |
+| $TS-Gross Revenue_Sum / $TSLCI / $TSUCI | Forecast + CI for Revenue Sum |
+| $TS-Gross Revenue_Mean / $TSLCI / $TSUCI | Forecast + CI for Revenue Mean |
+| $TS-Units Ordered_Sum / $TSLCI / $TSUCI | Forecast + CI for Units Ordered Sum |
+| $TS-Units Ordered_Mean / $TSLCI / $TSUCI | Forecast + CI for Units Ordered Mean |
+
+## Sample Data
+- Actuals from 2014; time-series projections also mapped to 2014.
+- Gross revenue sums $8M–$11M per month.
+- Record counts 234–347 transactions per month.
+
+## Relationships
+- Standalone forecast table; not directly joined to other tables via foreign keys
+- Logically related to `Order_Fact` and `CustomerLoyalty` (revenue data source)

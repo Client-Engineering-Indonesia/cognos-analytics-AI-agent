@@ -1,0 +1,27 @@
+# ReturnsForecast
+
+## Overview
+A time-series forecast table for product returns. Each row represents a monthly aggregate of actual return metrics alongside time-series model forecasts and confidence intervals. Used for predictive analytics and returns planning.
+
+## Columns
+| Column | Description |
+|---|---|
+| Year / Month No | Calendar period of the actuals |
+| Record_Count | Number of underlying transactions |
+| Return Revenue_Sum / Return Revenue_Mean | Actual return revenue (total and average) |
+| Units Returned_Sum / Units Returned_Mean | Actual units returned (total and average) |
+| $TI_TimeIndex / $TI_TimeLabel / $TI_Year / $TI_Month | Time series index and label |
+| $TI_Future | Flag: 0 = historical, 1 = future forecast |
+| $TS-Return Revenue_Sum / $TSLCI / $TSUCI | Forecast + lower/upper confidence interval for Revenue Sum |
+| $TS-Return Revenue_Mean / $TSLCI / $TSUCI | Forecast + CI for Revenue Mean |
+| $TS-Units Returned_Sum / $TSLCI / $TSUCI | Forecast + CI for Units Returned Sum |
+| $TS-Units Returned_Mean / $TSLCI / $TSUCI | Forecast + CI for Units Returned Mean |
+
+## Sample Data
+- Actuals from 2014; time-series projections mapped to 2016.
+- Return revenue sums ~$2,339–$3,715 per month.
+- Confidence intervals span ~±$1,000.
+
+## Relationships
+- Standalone forecast table; not directly joined to other tables via foreign keys
+- Logically related to `Customer_Service_Fact` (returns data source)

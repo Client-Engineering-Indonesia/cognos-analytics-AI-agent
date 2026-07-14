@@ -1,0 +1,27 @@
+# Run Reports
+
+## Overview
+An audit/operational log table tracking individual report runs in the BI system. Each row records one report execution event with user, report path, timing, and status.
+
+## Columns
+| Column | Description |
+|---|---|
+| User name | User who ran the report |
+| Report name | Name of the report |
+| Report type | Type (e.g. "Report batchreportservice") |
+| Report search path | Full Cognos content store path |
+| Execution time | Execution time in milliseconds |
+| Month | Calendar month of execution |
+| Time stamp | Exact timestamp of execution |
+| Package | Folder path of the report |
+| Status | SUCCESS or FAILURE |
+| Error details | Error message if failed |
+
+## Sample Data
+- All sample rows are from user "Seninger, Glen" running "Can Opportunities Closed This Month".
+- All executions were successful; execution times ~5,173–5,311 ms.
+- Dates: Aug–Oct 2011.
+
+## Relationships
+- Standalone audit log; no foreign key relationships to other D2G tables
+- Part of the BI usage audit suite alongside `Run Jobs`, `View Reports`, `User Logins`

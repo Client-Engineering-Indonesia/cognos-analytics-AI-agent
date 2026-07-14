@@ -1,0 +1,22 @@
+# Products
+
+## Overview
+A dimension table for products sold and purchased. Organises products into a three-level hierarchy: Category → Type → Product.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Product_ID | Business key for the product |
+| Product Category No / Product Category | Top-level category (e.g. Computers) |
+| Product Type No / Product Type | Mid-level type (e.g. Computers & Tablets) |
+| Product No | Numeric product code |
+| Product | Product name (e.g. Computer Accessories, Desktops, Laptops) |
+| Product Category_Lang / Product Type_Lang / Product_Lang | Multi-language labels (null in sample data) |
+
+## Sample Data
+- All 5 sample products are in "Computers" → "Computers & Tablets" category/type.
+- Products include: Computer Accessories, Desktops, Laptops, Netbooks, Tablets.
+
+## Relationships
+- `Product_ID` → referenced by `Call_Center_Fact.Product_ID`, `Customer_Service_Fact.Product_ID`, `CustomerLoyalty.Product_ID`, `Finance_Fact` (indirect), `Order_Fact.Product_ID`, `Pipeline_Fact.Product_ID`, `Procurement_Fact.Product_ID`

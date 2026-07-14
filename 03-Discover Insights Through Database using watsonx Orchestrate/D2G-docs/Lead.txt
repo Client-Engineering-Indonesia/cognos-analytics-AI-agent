@@ -1,0 +1,19 @@
+# Lead
+
+## Overview
+A small lookup/dimension table for sales lead sources. Categorises how pipeline opportunities were originated — by Marketing or Sales channels.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Lead_ID | Business key for the lead source |
+| Lead Org | Organisation responsible: Marketing or Sales |
+| Lead | Lead source name (e.g. Trade Show, Campaign, Web, Inside Sales, Direct) |
+
+## Sample Data
+- Marketing leads: Trade Show, Campaign, Web
+- Sales leads: Inside Sales, Direct, (others not shown)
+
+## Relationships
+- `Lead_ID` → referenced by `Pipeline_Fact.Lead_ID`

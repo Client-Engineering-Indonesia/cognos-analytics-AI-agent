@@ -1,0 +1,28 @@
+# HR_Fact
+
+## Overview
+A fact table for core HR metrics per employee per period. Tracks headcount, salary, separations, promotions, and performance distribution over time.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Date_ID | FK to HR_Calendar |
+| Employee_ID | FK to Employee |
+| Active Headcount | 1 if active, 0 if not |
+| Headcount | Total headcount count |
+| Annual Salary / Avg Salary Amt | Compensation metrics |
+| # Involuntary Separation / # Voluntary Separation / # Separation | Separation counts |
+| Separation % | Separation rate |
+| # Promotion / Promotion % | Promotion metrics |
+| # High Performers / # Steady Performers / # Low Performers | Performance buckets |
+| High Performers % / Steady Performers % / Low Performers % | Performance distribution ratios |
+
+## Sample Data
+- Each row is one employee for one period.
+- Salaries range from $41,300 to $142,789.
+- Performance is categorised as High, Steady, or Low — one flag set per row.
+
+## Relationships
+- `Date_ID` → `HR_Calendar.Date_ID`
+- `Employee_ID` → `Employee.Employee_ID`

@@ -1,0 +1,80 @@
+# D2G — Recruiting (Merged)
+# Tables: Recruiting_Fact, Applicant, Recruiting
+
+================================================================================
+# Recruiting_Fact
+================================================================================
+
+## Overview
+A fact table for recruitment activity. Each row represents a hiring event combining an employee (hiring manager), applicant, recruiting source, and date with cost, fill-time, and hire-rate metrics.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Date_ID | FK to Time |
+| Employee_ID | FK to Employee (hiring manager or requisition owner) |
+| Application_ID | FK to Applicant |
+| Recruiting_ID | FK to Recruiting |
+| # Applicant Hire | Number of hires (fractional) |
+| # Applicants | Total applicants for the role |
+| # Open Requisition | Open positions |
+| Applicant Hire % | Hire rate |
+| Cost per Hire | Recruiting cost per hire |
+| Time to Fill | Days taken to fill the position |
+
+## Sample Data
+- Cost per hire ranges from $329 to $25,975.
+- Time to fill ranges from 16 to 99 days.
+- Hire rates vary from 32% to 91%.
+
+## Relationships
+- `Date_ID` → `Time.Date_ID`
+- `Employee_ID` → `Employee.Employee_ID`
+- `Application_ID` → `Applicant.Applicant_ID`
+- `Recruiting_ID` → `Recruiting.Recruiting_ID`
+
+================================================================================
+# Applicant
+================================================================================
+
+## Overview
+A dimension table for job applicants used in the recruiting process. Classifies applicants by type (Internal/External) and employment basis (Full Time, Part Time, Student).
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Applicant_ID | Business key for the applicant |
+| Applicant | Applicant identifier code (e.g. ID1001) |
+| Applicant Type | Internal or External |
+| Full Part Time | Employment type: Full Time, Part Time, or Student |
+
+## Sample Data
+- Mix of Internal/External applicants with Full Time, Part Time, and Student designations.
+- Applicant codes follow the pattern ID1001, ID1002, etc.
+
+## Relationships
+- `Applicant_ID` → referenced as `Application_ID` in `Recruiting_Fact` (recruiting metrics fact table)
+
+================================================================================
+# Recruiting
+================================================================================
+
+## Overview
+A dimension table for recruiting channels and sources. Classifies where job candidates come from (agency, employee referral, etc.) and the specific source within that channel.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Recruiting_ID | Business key for the recruiting source |
+| Recruiting_Channel | High-level channel (e.g. Agency, Employee Referral) |
+| Recruiting_Source | Specific source name (e.g. "Workforce Professionals", "Refer a Friend Program") |
+
+## Sample Data
+- Three agency sources: Workforce Professionals, Job Resources, Last Chance Jobs, The Job Experts.
+- One employee referral source: Refer a Friend Program.
+
+## Relationships
+- `Recruiting_ID` → referenced by `Recruiting_Fact.Recruiting_ID`

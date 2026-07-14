@@ -1,0 +1,26 @@
+# Run Jobs
+
+## Overview
+An audit/operational log table tracking BI job (batch report) executions. Each row captures a job step within a job run, including execution time, status, and the Cognos content store path of the job.
+
+## Columns
+| Column | Description |
+|---|---|
+| User name | User who ran the job |
+| Job name and path | Full Cognos content store path of the job definition |
+| Job status | Overall job status (Success/Failure) |
+| Job error details | Error message if failed |
+| Job execution time | Total job execution time (ms) |
+| Job step name and path | Path of individual job step |
+| Job step status | Status of the step |
+| Job step error details | Step-level error message |
+| Job step execution time | Step execution time (ms) |
+
+## Sample Data
+- All sample rows are from user "Bradford, Carol", job "CSA Enablements per Analyst".
+- All steps succeeded; execution times range 11,938–25,656 ms.
+- Same job run has multiple steps (one row per step).
+
+## Relationships
+- Standalone audit log; no foreign key relationships to other D2G tables
+- Related to `Run Reports`, `View Reports`, and `User Logins` as part of the BI usage audit suite

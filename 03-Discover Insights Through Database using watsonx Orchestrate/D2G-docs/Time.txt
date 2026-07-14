@@ -1,0 +1,26 @@
+# Time
+
+## Overview
+The primary date/time dimension table with daily granularity. Used as the core date dimension by most operational and sales fact tables. Provides full calendar hierarchy from day to year.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Date_ID | Business key for the date |
+| Year | Calendar year (e.g. "2014") |
+| Quarter No / Quarter | Quarter number and label (e.g. "Q1/2014") |
+| Month No / Month | Month number and label (e.g. "Jan/2014") |
+| Week No / Week | ISO week number and label (e.g. "W1-2014") |
+| Day of Week No / Day of Week | Day of week number and name |
+| Day | Full date value |
+| Day of Month No | Day number within the month |
+| Day of Year No | Day number within the year |
+
+## Sample Data
+- Starts from 2014-01-01.
+- Granularity is daily.
+
+## Relationships
+- `Date_ID` → referenced by `Call_Center_Fact.Date_ID`, `Customer_Service_Fact.Date_ID`, `CustomerLoyalty.Date_ID`, `IT_Fact.Day_ID`, `Order_Fact.Date_ID`, `Pipeline_Fact.Date_ID`, `Procurement_Fact.Date_ID`, `Recruiting_Fact.Date_ID`, `Training_Fact.Date_ID`
+- Note: `HR_Calendar` and `Fiscal_Period` are separate calendar dimensions for HR and Finance subject areas respectively

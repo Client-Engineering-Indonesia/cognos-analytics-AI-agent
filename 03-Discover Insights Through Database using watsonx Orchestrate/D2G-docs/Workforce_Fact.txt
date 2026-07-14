@@ -1,0 +1,32 @@
+# Workforce_Fact
+
+## Overview
+An extended HR fact table covering workforce planning metrics. Builds on `HR_Fact` with additional succession planning columns. Each row is one employee for one HR calendar period.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Date_ID | FK to HR_Calendar |
+| Employee_ID | FK to Employee |
+| Active Headcount | 1 if active |
+| Headcount | Total headcount |
+| Annual Salary / Avg Salary Amt | Compensation |
+| # Involuntary Separation / # Voluntary Separation / # Separation | Separation counts |
+| Separation % / Promotion % | Rates |
+| # High Performers / # Steady Performers / # Low Performers | Performance buckets |
+| High Performers % / Steady Performers % / Low Performers % | Performance distribution |
+| # Successor | Number of identified successors |
+| # Successor Required | Number of positions requiring a successor |
+| # Successor Program | Succession programs in place |
+| # Found Successor Positions | Positions with successors found |
+
+## Sample Data
+- Salaries range $81,040–$127,980.
+- All sample rows have 0 successor metrics (succession planning not yet populated).
+- Performance distribution: rows are flagged as High, Steady, or Low performers.
+
+## Relationships
+- `Date_ID` → `HR_Calendar.Date_ID`
+- `Employee_ID` → `Employee.Employee_ID`
+- Superset of `HR_Fact` — adds succession planning columns

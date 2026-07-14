@@ -1,0 +1,21 @@
+# Fiscal_Period
+
+## Overview
+A fiscal calendar dimension table. Maps `Date_ID` values to fiscal year, quarter, and month labels (using "FY" prefix). Used specifically by financial fact tables.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Date_ID | Business key for the fiscal period |
+| Year | Fiscal year label (e.g. "FY09") |
+| Quarter No / Quarter | Quarter number and label (e.g. "Q1/FY09") |
+| Month No / Month | Month number and label (e.g. "P01/FY09") |
+
+## Sample Data
+- Fiscal year starts at FY09 (2009).
+- Months labelled as P01 through P12 within each fiscal year.
+
+## Relationships
+- `Date_ID` → referenced by `Finance_Fact.Date_ID`
+- Note: Different from `Time` and `HR_Calendar` — this is the **fiscal** calendar used for finance reporting

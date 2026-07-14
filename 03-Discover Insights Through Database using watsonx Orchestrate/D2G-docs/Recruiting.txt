@@ -1,0 +1,19 @@
+# Recruiting
+
+## Overview
+A dimension table for recruiting channels and sources. Classifies where job candidates come from (agency, employee referral, etc.) and the specific source within that channel.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Recruiting_ID | Business key for the recruiting source |
+| Recruiting_Channel | High-level channel (e.g. Agency, Employee Referral) |
+| Recruiting_Source | Specific source name (e.g. "Workforce Professionals", "Refer a Friend Program") |
+
+## Sample Data
+- Three agency sources: Workforce Professionals, Job Resources, Last Chance Jobs, The Job Experts.
+- One employee referral source: Refer a Friend Program.
+
+## Relationships
+- `Recruiting_ID` → referenced by `Recruiting_Fact.Recruiting_ID`

@@ -1,0 +1,23 @@
+# Enrollment_Status
+
+## Overview
+A small lookup/dimension table for training course enrollment statuses. Defines all possible states a training enrollment can be in.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Enrollment_ID | Business key for the status |
+| Enrollment Status | Status label |
+
+## Sample Data
+| Enrollment_ID | Enrollment Status |
+|---|---|
+| 1 | Completed |
+| 2 | Development Course Complete |
+| 3 | Dropped |
+| 4 | Failed |
+| 5 | In Progress |
+
+## Relationships
+- `Enrollment_ID` → referenced by `Training_Fact.Enrollment_Status` (stored as numeric ID)

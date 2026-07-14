@@ -1,0 +1,31 @@
+# Customer_Service_Fact
+
+## Overview
+A fact table for customer service orders/transactions. Tracks order revenue, returns, late products, and customer gain/loss metrics over time per product and customer.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Date_ID | FK to Time |
+| Product_ID | FK to Products |
+| Customer_ID | FK to Customer |
+| Sales_ID | FK to Geography (sales rep territory) |
+| Revenue | Actual revenue |
+| Return Revenue | Revenue lost to returns |
+| # Lost Customer / # New Customer | Customer churn and acquisition count |
+| Lost Customer % / New Customer % | Churn/acquisition rates |
+| # Late Product / Late Product Days | Late delivery metrics |
+| Return to Order % | Return rate vs orders |
+| Units Ordered / Units Returned | Volume metrics |
+| Order Amt | Order amount |
+
+## Sample Data
+- Revenue ranges from $56 to $1,008 per row.
+- Units ordered 4–9 with small fractional returns.
+
+## Relationships
+- `Date_ID` → `Time.Date_ID`
+- `Product_ID` → `Products.Product_ID`
+- `Customer_ID` → `Customer.Customer_ID`
+- `Sales_ID` → `Geography.Sales_ID`

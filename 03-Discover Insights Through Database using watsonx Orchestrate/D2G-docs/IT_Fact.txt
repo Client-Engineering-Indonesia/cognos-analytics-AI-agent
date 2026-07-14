@@ -1,0 +1,32 @@
+# IT_Fact
+
+## Overview
+A fact table for IT/BI system usage metrics. Tracks user sessions, report executions, server performance, and application usage across the BI infrastructure.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Day_ID | FK to Time (daily grain) |
+| Period | Peak or off-peak period |
+| Server | Server name (e.g. COGVMLN4) |
+| ServerFarm | Server farm type (e.g. AIX) |
+| ApplicationType | Type of application (e.g. BI) |
+| ServerLocation | Physical location of the server |
+| Application | Application name (e.g. "Procurement Analytics") |
+| Status | Execution status (Success/Failure) |
+| NoofRequests | Number of requests in the session |
+| User | Username |
+| NoofUsers | Number of users in the session |
+| ExecutionTime (Secs) | Execution time in seconds |
+| Session duration (Mins) | Session length in minutes |
+| CPUUsage | CPU utilisation |
+| Failures | Number of failures |
+
+## Sample Data
+- All sample rows are "Success" status, off-peak period, AIX server farm.
+- Applications include Procurement Analytics, Supply Chain, Financial Reporting, etc.
+- CPU usage is low (~0.08–0.18).
+
+## Relationships
+- `Day_ID` → `Time.Date_ID` (daily calendar grain)

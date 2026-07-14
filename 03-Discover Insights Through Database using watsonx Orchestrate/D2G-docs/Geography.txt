@@ -1,0 +1,24 @@
+# Geography
+
+## Overview
+A dimension table for sales territories and sales representatives. Maps a `Sales_ID` to a territory, country, province, city, and assigned sales rep with their employee ID.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Sales_ID | Business key for the sales territory/rep |
+| Territory | High-level territory name (e.g. Europe) |
+| Country | Country |
+| Province | Province or region |
+| City | City |
+| Sales Rep | Name of the sales representative |
+| Employee ID | FK to Employee (numeric employee ID) |
+
+## Sample Data
+- First 5 rows all belong to the Europe territory (England and Scotland).
+- Sales reps include Paul Pierce, Pablo Ruiz, Tom Jones, Allison MacBrath, Gary Trent.
+
+## Relationships
+- `Sales_ID` → referenced by `CustomerLoyalty.Sales_ID`, `Customer_Service_Fact.Sales_ID`, `Order_Fact.Sales_ID`, `Pipeline_Fact.Sales_ID`
+- `Employee ID` → `Employee.Employee ID`

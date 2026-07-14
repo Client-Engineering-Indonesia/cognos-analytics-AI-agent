@@ -1,0 +1,20 @@
+# Applicant
+
+## Overview
+A dimension table for job applicants used in the recruiting process. Classifies applicants by type (Internal/External) and employment basis (Full Time, Part Time, Student).
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Applicant_ID | Business key for the applicant |
+| Applicant | Applicant identifier code (e.g. ID1001) |
+| Applicant Type | Internal or External |
+| Full Part Time | Employment type: Full Time, Part Time, or Student |
+
+## Sample Data
+- Mix of Internal/External applicants with Full Time, Part Time, and Student designations.
+- Applicant codes follow the pattern ID1001, ID1002, etc.
+
+## Relationships
+- `Applicant_ID` → referenced as `Application_ID` in `Recruiting_Fact` (recruiting metrics fact table)

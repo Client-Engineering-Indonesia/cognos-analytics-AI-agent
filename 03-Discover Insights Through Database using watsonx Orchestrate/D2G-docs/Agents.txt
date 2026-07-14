@@ -1,0 +1,24 @@
+# Agents
+
+## Overview
+A dimension table describing call center agents. Each row represents one agent assigned to a specific call center location with a defined manager and team lead hierarchy.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Agent_ID | Business key for the agent |
+| Agent | Full name of the agent |
+| Manager | Full name of the agent's manager |
+| Team Lead | Full name of the team lead |
+| Call Center | Name of the call center the agent belongs to |
+| Territory | Geographic territory (e.g. North America) |
+| Country | Country of the call center |
+| City | City of the call center |
+
+## Sample Data
+- Agent IDs 1–5 all belong to "Maritime Operations" call center in Halifax, Canada.
+- All report to manager "Spencer Brett Franklin" under team lead "Lester Leon Barrett".
+
+## Relationships
+- `Agent_ID` → referenced by `Call_Center_Fact.Agent_ID` (fact table for call center metrics)

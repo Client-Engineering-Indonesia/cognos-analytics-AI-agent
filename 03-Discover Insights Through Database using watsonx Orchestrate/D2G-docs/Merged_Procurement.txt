@@ -1,0 +1,42 @@
+# D2G — Procurement (Merged)
+# Tables: Procurement_Fact
+
+================================================================================
+# Procurement_Fact
+================================================================================
+
+## Overview
+A fact table for procurement/purchasing operations. Tracks purchase orders per buyer, vendor, product, and organisation with compliance, rejection, and delivery performance metrics.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Buyer_ID | ID of the buyer (employee making the purchase) |
+| Date_ID | FK to Time |
+| Org_ID | FK to Organization |
+| Vendor_ID | FK to Vendor |
+| Product_ID | FK to Products |
+| Compliance Amt | Amount purchased within contract |
+| Purchase Amt | Total purchase amount |
+| Purchase Amt Outside Contract | Amount purchased outside contract |
+| Potential Saving | Potential cost saving |
+| Unit Price | Price per unit |
+| Units Purchased / Units Rejected / Units Received | Volume and quality metrics |
+| Units Purchased Outside Contract | Non-compliant volume |
+| # Order / # Reject | Order and rejection counts |
+| # Late Delivery / Late Delivery Days | Delivery performance |
+| Rejected to Received % | Rejection rate |
+| Received to Ordered % | Fulfilment rate |
+
+## Sample Data
+- Fulfilment rates ~80–97%.
+- Rejection rates up to 23%.
+- Some orders have zero late deliveries.
+
+## Relationships
+- `Date_ID` → `Time.Date_ID`
+- `Org_ID` → `Organization.Org_ID`
+- `Vendor_ID` → `Vendor.Vendor_ID`
+- `Product_ID` → `Products.Product_ID`
+- `Buyer_ID` → likely maps to `Employee.Employee_ID`

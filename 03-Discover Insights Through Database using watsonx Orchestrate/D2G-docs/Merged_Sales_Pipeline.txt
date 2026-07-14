@@ -1,0 +1,118 @@
+# D2G — Sales Pipeline (Merged)
+# Tables: Pipeline_Fact, Sales_Stage, Lead, RevenueForecast
+
+================================================================================
+# Pipeline_Fact
+================================================================================
+
+## Overview
+A sales pipeline fact table tracking opportunity progression through sales stages. Each row represents a pipeline snapshot per date, customer, product, sales rep, stage, and lead source with win/loss and revenue metrics.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Date_ID | FK to Time |
+| Customer_ID | FK to Customer |
+| Product_ID | FK to Products |
+| Sales_ID | FK to Geography |
+| Stage_ID | FK to Sales_Stage |
+| Lead_ID | FK to Lead |
+| # Win Opportunity | Count of won opportunities |
+| Opportunity Revenue / Revenue | Potential and actual revenue |
+| # Lost Opportunity / # Closed Opportunity / # Total Opportunity | Opportunity counts |
+| Win/Loss % | Win rate |
+| Avg Win Duration | Average days to win |
+| Stage to Stage Duration | Days spent in stage |
+| Stage to Win % / Stage to Win Duration | Stage-level win probability and duration |
+| Units Ordered | Units associated with opportunity |
+| Opportunity Amt | Opportunity value |
+
+## Sample Data
+- Win/Loss % ranges ~47–64%.
+- Revenue from won opportunities ranges from $6,396 to $98,271.
+
+## Relationships
+- `Date_ID` → `Time.Date_ID`
+- `Customer_ID` → `Customer.Customer_ID`
+- `Product_ID` → `Products.Product_ID`
+- `Sales_ID` → `Geography.Sales_ID`
+- `Stage_ID` → `Sales_Stage.Stage_ID`
+- `Lead_ID` → `Lead.Lead_ID`
+
+================================================================================
+# Sales_Stage
+================================================================================
+
+## Overview
+A small lookup/dimension table for sales pipeline stages. Defines the 4 stages an opportunity progresses through before closing.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Stage_ID | Business key for the stage |
+| Sales Stage | Stage label (Stage 1 through Stage 4) |
+
+## Sample Data
+| Stage_ID | Sales Stage |
+|---|---|
+| 1 | Stage 1 |
+| 2 | Stage 2 |
+| 3 | Stage 3 |
+| 4 | Stage 4 |
+
+## Relationships
+- `Stage_ID` → referenced by `Pipeline_Fact.Stage_ID`
+
+================================================================================
+# Lead
+================================================================================
+
+## Overview
+A small lookup/dimension table for sales lead sources. Categorises how pipeline opportunities were originated — by Marketing or Sales channels.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Lead_ID | Business key for the lead source |
+| Lead Org | Organisation responsible: Marketing or Sales |
+| Lead | Lead source name (e.g. Trade Show, Campaign, Web, Inside Sales, Direct) |
+
+## Sample Data
+- Marketing leads: Trade Show, Campaign, Web
+- Sales leads: Inside Sales, Direct, (others not shown)
+
+## Relationships
+- `Lead_ID` → referenced by `Pipeline_Fact.Lead_ID`
+
+================================================================================
+# RevenueForecast
+================================================================================
+
+## Overview
+A time-series forecast table for gross revenue and units ordered. Mirrors the structure of `ReturnsForecast` but for revenue and order volume. Used for revenue planning and predictive analytics.
+
+## Columns
+| Column | Description |
+|---|---|
+| Year / Month No | Calendar period of the actuals |
+| Record_Count | Number of underlying transactions |
+| Gross Revenue_Sum / Gross Revenue_Mean | Actual gross revenue (total and average) |
+| Units Ordered_Sum / Units Ordered_Mean | Actual units ordered (total and average) |
+| $TI_TimeIndex / $TI_TimeLabel / $TI_Year / $TI_Month | Time series index and label |
+| $TI_Future | Flag: 0 = historical, 1 = future forecast |
+| $TS-Gross Revenue_Sum / $TSLCI / $TSUCI | Forecast + CI for Revenue Sum |
+| $TS-Gross Revenue_Mean / $TSLCI / $TSUCI | Forecast + CI for Revenue Mean |
+| $TS-Units Ordered_Sum / $TSLCI / $TSUCI | Forecast + CI for Units Ordered Sum |
+| $TS-Units Ordered_Mean / $TSLCI / $TSUCI | Forecast + CI for Units Ordered Mean |
+
+## Sample Data
+- Actuals from 2014; time-series projections also mapped to 2014.
+- Gross revenue sums $8M–$11M per month.
+- Record counts 234–347 transactions per month.
+
+## Relationships
+- Standalone forecast table; not directly joined to other tables via foreign keys
+- Logically related to `Order_Fact` and `CustomerLoyalty` (revenue data source)

@@ -1,0 +1,24 @@
+# Vendor
+
+## Overview
+A dimension table for suppliers/vendors. Each row represents one vendor with geographic and classification details. Used in procurement and financial transactions.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Vendor_ID | Business key for the vendor |
+| Vendor | Vendor company name |
+| Vendor Type | Classification (all "Not Applicable" in sample data) |
+| Country | Country of the vendor |
+| City | City |
+| State/Province | State or province |
+| Vendor Address | Street address |
+
+## Sample Data
+- IDs 1–4 based in Australia (St. Kilda, Perth).
+- IDs 5–10 based in Canada (Victoria, St. John's, Ottawa).
+- All vendor types are "Not Applicable".
+
+## Relationships
+- `Vendor_ID` → referenced by `Finance_Fact.Vendor_ID`, `Procurement_Fact.Vendor_ID`

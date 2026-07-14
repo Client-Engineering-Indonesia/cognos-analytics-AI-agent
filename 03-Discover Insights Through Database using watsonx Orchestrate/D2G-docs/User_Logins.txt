@@ -1,0 +1,24 @@
+# User Logins
+
+## Overview
+An audit log table tracking user login and session activity in the BI system. Each row represents one user session with logon/logoff timestamps and session duration.
+
+## Columns
+| Column | Description |
+|---|---|
+| User name | Username |
+| Month | Calendar month label |
+| Logon time | Timestamp when session started |
+| Session ID | Unique session identifier |
+| Logoff operation | Type of logoff (e.g. "Logoff") |
+| Logoff time | Timestamp when session ended |
+| Session duration | Session length in seconds |
+
+## Sample Data
+- All sample rows from Nov/2011.
+- Some sessions have 0 duration (instant logon/logoff or timeout).
+- Williams, Wanda had a 173-second session.
+
+## Relationships
+- Standalone audit log; no foreign key relationships to other D2G tables
+- Part of the BI usage audit suite alongside `Run Jobs`, `Run Reports`, `View Reports`

@@ -1,0 +1,31 @@
+# Training_Fact
+
+## Overview
+A fact table for employee training activity. Each row records a training enrollment event per employee, course, and date — tracking cost, duration, score, and program completion.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Course_ID | FK to Course |
+| Date_ID | FK to Time |
+| Employee_ID | FK to Employee |
+| Enrollment_Status | FK to Enrollment_Status (stored as numeric ID) |
+| # Course | Number of courses taken |
+| Course Duration | Duration of course (hours) |
+| Course Score | Score achieved (0–100) |
+| Training Hours | Total training hours |
+| Training Cost | Cost of training |
+| # Program | Number of programs |
+| # Program Enrollment / # Program Completion | Program-level tracking |
+
+## Sample Data
+- Courses 1–5 across employees 989, 1162, 962, 1025, 524.
+- Enrollment statuses 1–5 (Completed, Dev Complete, Dropped, Failed, In Progress) and 11.
+- Costs range from $832 to $2,229 per enrollment.
+
+## Relationships
+- `Course_ID` → `Course.Course_ID`
+- `Date_ID` → `Time.Date_ID`
+- `Employee_ID` → `Employee.Employee_ID`
+- `Enrollment_Status` → `Enrollment_Status.Enrollment_ID`

@@ -1,0 +1,36 @@
+# Pipeline_Fact
+
+## Overview
+A sales pipeline fact table tracking opportunity progression through sales stages. Each row represents a pipeline snapshot per date, customer, product, sales rep, stage, and lead source with win/loss and revenue metrics.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Date_ID | FK to Time |
+| Customer_ID | FK to Customer |
+| Product_ID | FK to Products |
+| Sales_ID | FK to Geography |
+| Stage_ID | FK to Sales_Stage |
+| Lead_ID | FK to Lead |
+| # Win Opportunity | Count of won opportunities |
+| Opportunity Revenue / Revenue | Potential and actual revenue |
+| # Lost Opportunity / # Closed Opportunity / # Total Opportunity | Opportunity counts |
+| Win/Loss % | Win rate |
+| Avg Win Duration | Average days to win |
+| Stage to Stage Duration | Days spent in stage |
+| Stage to Win % / Stage to Win Duration | Stage-level win probability and duration |
+| Units Ordered | Units associated with opportunity |
+| Opportunity Amt | Opportunity value |
+
+## Sample Data
+- Win/Loss % ranges ~47–64%.
+- Revenue from won opportunities ranges from $6,396 to $98,271.
+
+## Relationships
+- `Date_ID` → `Time.Date_ID`
+- `Customer_ID` → `Customer.Customer_ID`
+- `Product_ID` → `Products.Product_ID`
+- `Sales_ID` → `Geography.Sales_ID`
+- `Stage_ID` → `Sales_Stage.Stage_ID`
+- `Lead_ID` → `Lead.Lead_ID`

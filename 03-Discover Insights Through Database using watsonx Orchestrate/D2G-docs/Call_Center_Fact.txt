@@ -1,0 +1,41 @@
+# Call_Center_Fact
+
+## Overview
+The primary fact table for call center operations. Each row represents one call interaction event, linking agents, customers, products, call severity, and service type with detailed call performance metrics.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Agent_ID | FK to Agents |
+| Date_ID | FK to Time (date dimension) |
+| Group_ID | FK to Group (agent group/level) |
+| Product_ID | FK to Products |
+| Call_Severity_ID | FK to Call_Severity |
+| Service_Type_ID | FK to Service_Type |
+| Customer_ID | FK to Customer |
+| # Call | Number of calls |
+| # Completed | Completed calls count |
+| # Active Agent | Active agents at time of call |
+| # Terminated | Terminated calls |
+| Avg Hold Time | Average hold time (minutes) |
+| Call Duration | Total call duration (minutes) |
+| Call Costs | Cost of calls |
+| Hold Time Mising SLA / Hold Time with SLA | SLA compliance for hold time |
+| Call Duration missing SLA / Call Duration within SLA | SLA compliance for duration |
+| Quality Level | Quality score (0–1) |
+| Satisfaction Level | Customer satisfaction score (0–1) |
+| Tech Level | Technical resolution score (0–1) |
+
+## Sample Data
+- Calls span various agents, products, groups, and service types.
+- Quality and satisfaction levels typically range 0.7–1.0.
+
+## Relationships
+- `Agent_ID` → `Agents.Agent_ID`
+- `Date_ID` → `Time.Date_ID`
+- `Group_ID` → `Group.Group_ID`
+- `Product_ID` → `Products.Product_ID`
+- `Call_Severity_ID` → `Call_Severity.Call_Severity_ID`
+- `Service_Type_ID` → `Service_Type.Service_Type_ID`
+- `Customer_ID` → `Customer.Customer_ID`

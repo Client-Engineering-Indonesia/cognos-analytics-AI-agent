@@ -1,0 +1,66 @@
+# D2G — Customer Service (Merged)
+# Tables: Customer_Service_Fact, ReturnsForecast
+
+================================================================================
+# Customer_Service_Fact
+================================================================================
+
+## Overview
+A fact table for customer service orders/transactions. Tracks order revenue, returns, late products, and customer gain/loss metrics over time per product and customer.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Date_ID | FK to Time |
+| Product_ID | FK to Products |
+| Customer_ID | FK to Customer |
+| Sales_ID | FK to Geography (sales rep territory) |
+| Revenue | Actual revenue |
+| Return Revenue | Revenue lost to returns |
+| # Lost Customer / # New Customer | Customer churn and acquisition count |
+| Lost Customer % / New Customer % | Churn/acquisition rates |
+| # Late Product / Late Product Days | Late delivery metrics |
+| Return to Order % | Return rate vs orders |
+| Units Ordered / Units Returned | Volume metrics |
+| Order Amt | Order amount |
+
+## Sample Data
+- Revenue ranges from $56 to $1,008 per row.
+- Units ordered 4–9 with small fractional returns.
+
+## Relationships
+- `Date_ID` → `Time.Date_ID`
+- `Product_ID` → `Products.Product_ID`
+- `Customer_ID` → `Customer.Customer_ID`
+- `Sales_ID` → `Geography.Sales_ID`
+
+================================================================================
+# ReturnsForecast
+================================================================================
+
+## Overview
+A time-series forecast table for product returns. Each row represents a monthly aggregate of actual return metrics alongside time-series model forecasts and confidence intervals. Used for predictive analytics and returns planning.
+
+## Columns
+| Column | Description |
+|---|---|
+| Year / Month No | Calendar period of the actuals |
+| Record_Count | Number of underlying transactions |
+| Return Revenue_Sum / Return Revenue_Mean | Actual return revenue (total and average) |
+| Units Returned_Sum / Units Returned_Mean | Actual units returned (total and average) |
+| $TI_TimeIndex / $TI_TimeLabel / $TI_Year / $TI_Month | Time series index and label |
+| $TI_Future | Flag: 0 = historical, 1 = future forecast |
+| $TS-Return Revenue_Sum / $TSLCI / $TSUCI | Forecast + lower/upper confidence interval for Revenue Sum |
+| $TS-Return Revenue_Mean / $TSLCI / $TSUCI | Forecast + CI for Revenue Mean |
+| $TS-Units Returned_Sum / $TSLCI / $TSUCI | Forecast + CI for Units Returned Sum |
+| $TS-Units Returned_Mean / $TSLCI / $TSUCI | Forecast + CI for Units Returned Mean |
+
+## Sample Data
+- Actuals from 2014; time-series projections mapped to 2016.
+- Return revenue sums ~$2,339–$3,715 per month.
+- Confidence intervals span ~±$1,000.
+
+## Relationships
+- Standalone forecast table; not directly joined to other tables via foreign keys
+- Logically related to `Customer_Service_Fact` (returns data source)

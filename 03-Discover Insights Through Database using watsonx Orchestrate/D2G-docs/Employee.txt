@@ -1,0 +1,32 @@
+# Employee
+
+## Overview
+A dimension table for employees. Each row represents one employee with full demographic, role, organizational, and geographic profile.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Employee_ID | Business key for the employee |
+| Employee / Employee Name | Employee name |
+| Employee ID | Numeric employee ID |
+| Age | Age in years (decimal) |
+| Date of Birth | DOB |
+| Gender | Male/Female |
+| Ethnic Group | Ethnicity |
+| Marital Status | Marital status (may be null) |
+| Disabled Flag | Disability flag (may be null) |
+| Job Family / Job / Position | Role classification |
+| Original Hire Date | Date first hired |
+| Geography / Country / Location / Town or City | Location details |
+| Organization / Organization Class / Organization Type | Org hierarchy |
+| Tenure | Tenure band (e.g. "(5) 10+", "(4) 5 to <10") |
+
+## Sample Data
+- Employees span France, UK, Canada, USA.
+- Job families include Production and Operations.
+- Tenure bands range from 5–10+ years.
+
+## Relationships
+- `Employee_ID` → referenced by `HR_Fact.Employee_ID`, `Workforce_Fact.Employee_ID`, `Attrition_Study.Employee_ID`, `Recruiting_Fact.Employee_ID`, `Training_Fact.Employee_ID`
+- `Employee ID` (numeric) → referenced by `Geography.Employee ID`

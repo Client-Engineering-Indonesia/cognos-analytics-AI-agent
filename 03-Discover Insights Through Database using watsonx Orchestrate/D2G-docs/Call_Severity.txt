@@ -1,0 +1,21 @@
+# Call_Severity
+
+## Overview
+A small lookup/dimension table defining severity levels for customer support calls. Contains only 3 rows.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Call_Severity_ID | Business key for the severity level |
+| Call_Severity | Label: High, Medium, or Low |
+
+## Sample Data
+| Call_Severity_ID | Call_Severity |
+|---|---|
+| 1 | High |
+| 2 | Medium |
+| 3 | Low |
+
+## Relationships
+- `Call_Severity_ID` → referenced by `Call_Center_Fact.Call_Severity_ID`

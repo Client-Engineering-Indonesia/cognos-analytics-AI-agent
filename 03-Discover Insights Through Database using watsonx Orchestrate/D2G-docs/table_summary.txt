@@ -1,0 +1,119 @@
+# D2G Database — Table Summary
+
+All 40 tables in the D2G database, grouped by subject area, with a one-line description of each.
+
+---
+
+## 📞 Call Center
+
+| Table | Type | Summary |
+|---|---|---|
+| [Agents](Agents.md) | Dimension | Call center agents with their manager, team lead, call center, and location. |
+| [Call_Center_Fact](Call_Center_Fact.md) | Fact | Call interaction metrics (volume, duration, hold time, SLA, quality, satisfaction) per agent, customer, product, and severity. |
+| [Call_Severity](Call_Severity.md) | Lookup | 3-row table defining call severity levels: High, Medium, Low. |
+| [Group](Group.md) | Lookup | Agent group/skill levels: Level 1–3 for Sales and Technical. |
+| [Service_Type](Service_Type.md) | Lookup | Customer service call categories (Billing Issue, Delivery Issue, etc.). |
+
+---
+
+## 🛒 Sales & Orders
+
+| Table | Type | Summary |
+|---|---|---|
+| [Order_Fact](Order_Fact.md) | Fact | Sales order transactions with revenue, cost, margin, discount, and pricing per product, customer, sales rep, and channel. |
+| [CustomerLoyalty](CustomerLoyalty.md) | Analytical Fact | Denormalized sales fact enriched with RFM loyalty scores, churn probability, and possible revenue loss per customer and product. |
+| [Customer](Customer.md) | Dimension | Customer accounts with type, credit rating, geographic location, and assigned sales rep. |
+| [Products](Products.md) | Dimension | Product hierarchy: Category → Type → Product (e.g. Computers → Tablets → Netbooks). |
+| [Channel](Channel.md) | Lookup | 3-row table defining sales channels: Direct, Retail, Internet. |
+| [Geography](Geography.md) | Dimension | Sales territories and representatives mapped to country, province, and city. |
+
+---
+
+## 📊 Sales Pipeline
+
+| Table | Type | Summary |
+|---|---|---|
+| [Pipeline_Fact](Pipeline_Fact.md) | Fact | Sales opportunity pipeline tracking win/loss counts, revenue, stage progression duration, and win rates per customer, product, and stage. |
+| [Sales_Stage](Sales_Stage.md) | Lookup | 4-row table defining pipeline stages: Stage 1 through Stage 4. |
+| [Lead](Lead.md) | Lookup | Lead source dimension classifying opportunities by origin (Trade Show, Campaign, Web, Inside Sales, Direct). |
+| [RevenueForecast](RevenueForecast.md) | Forecast | Monthly time-series forecast of gross revenue and units ordered with confidence intervals. |
+
+---
+
+## 🎧 Customer Service
+
+| Table | Type | Summary |
+|---|---|---|
+| [Customer_Service_Fact](Customer_Service_Fact.md) | Fact | Order-level service metrics including revenue, returns, late deliveries, and customer gain/loss per product, customer, and sales rep. |
+| [ReturnsForecast](ReturnsForecast.md) | Forecast | Monthly time-series forecast of return revenue and units returned with confidence intervals. |
+
+---
+
+## 💰 Finance
+
+| Table | Type | Summary |
+|---|---|---|
+| [Finance_Fact](Finance_Fact.md) | Fact | Financial period snapshots per customer, org, and vendor: P&L, balance sheet ratios, cash flow, invoices, and discount tracking. |
+| [Fiscal_Period](Fiscal_Period.md) | Time Dimension | Fiscal calendar mapping Date_ID to fiscal year (FY09+), quarter, and period labels (P01–P12). |
+| [Organization](Organization.md) | Dimension | Three-level corporate org hierarchy (Corporate → Division → Department). |
+| [Vendor](Vendor.md) | Dimension | Supplier/vendor master with name, country, city, and address. |
+
+---
+
+## 🏭 Procurement
+
+| Table | Type | Summary |
+|---|---|---|
+| [Procurement_Fact](Procurement_Fact.md) | Fact | Purchase order metrics per buyer, vendor, product, and org: compliance, rejection rate, late delivery, and potential savings. |
+
+---
+
+## 👥 HR & Workforce
+
+| Table | Type | Summary |
+|---|---|---|
+| [Employee](Employee.md) | Dimension | Employee master with demographics, job role, location, org assignment, and tenure band. |
+| [HR_Fact](HR_Fact.md) | Fact | Monthly HR metrics per employee: headcount, salary, separations, promotions, and performance classification. |
+| [Workforce_Fact](Workforce_Fact.md) | Fact | Extended HR fact adding succession planning metrics (successors required, found, and programs) on top of HR_Fact. |
+| [Attrition_Study](Attrition_Study.md) | Analytical Extract | Wide denormalized table combining attrition, training, and fleet metrics per employee for predictive attrition modelling. |
+| [HR_Calendar](HR_Calendar.md) | Time Dimension | Monthly HR calendar mapping Date_ID to calendar year, quarter, and month (2009+). |
+
+---
+
+## 🎓 Training
+
+| Table | Type | Summary |
+|---|---|---|
+| [Training_Fact](Training_Fact.md) | Fact | Training enrollment events per employee and course: hours, cost, score, duration, and program completion counts. |
+| [Course](Course.md) | Dimension | Training course catalogue with type (Sales/Technical/Leadership), delivery method, program, and internal/external flag. |
+| [Enrollment_Status](Enrollment_Status.md) | Lookup | Training enrollment status codes: Completed, In Progress, Dropped, Failed, Development Course Complete. |
+
+---
+
+## 🧑‍💼 Recruiting
+
+| Table | Type | Summary |
+|---|---|---|
+| [Recruiting_Fact](Recruiting_Fact.md) | Fact | Hiring activity per requisition: applicant counts, hire rate, cost per hire, and time to fill. |
+| [Applicant](Applicant.md) | Dimension | Job applicants classified by type (Internal/External) and employment basis (Full/Part Time/Student). |
+| [Recruiting](Recruiting.md) | Dimension | Recruiting channels and sources (Agency, Employee Referral, etc.) used to attract candidates. |
+
+---
+
+## 💻 IT / BI Audit
+
+| Table | Type | Summary |
+|---|---|---|
+| [IT_Fact](IT_Fact.md) | Fact | BI server usage metrics per user session: requests, execution time, CPU usage, session duration, and failures. |
+| [Run_Jobs](Run_Jobs.md) | Audit Log | Batch BI job execution log with step-level status, execution time, and Cognos content store path. |
+| [Run_Reports](Run_Reports.md) | Audit Log | Report execution log tracking user, report path, execution time, and status for each report run. |
+| [View_Reports](View_Reports.md) | Audit Log | Report view log capturing interactive report access events with user, path, and timestamp. |
+| [User_Logins](User_Logins.md) | Audit Log | BI system login/logout session log with session ID, duration, and timestamps. |
+
+---
+
+## ❓ Empty / Placeholder
+
+| Table | Type | Summary |
+|---|---|---|
+| [Fleet_Operations](Fleet_Operations.md) | Unknown | Defined in schema but contains no data; likely intended for fleet/vehicle operational metrics. |

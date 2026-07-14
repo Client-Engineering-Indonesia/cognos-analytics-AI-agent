@@ -1,0 +1,33 @@
+# Attrition_Study
+
+## Overview
+A denormalized analytical table (blended fact/dimension) capturing employee attrition, performance, training, and fleet metrics in a single wide row per employee event. Used for workforce analytics and predictive attrition modelling.
+
+## Columns
+| Column | Description |
+|---|---|
+| Employee_ID | Foreign key to Employee |
+| Active Headcount | 1 if currently active, 0 if separated |
+| # Separation | Number of separations |
+| # Involuntary Separation | Count of involuntary separations |
+| # Voluntary Separation | Count of voluntary separations |
+| Performance | Performance score |
+| Tenure | Tenure in months |
+| Age at Metric Date | Age in months at measurement date |
+| Annual Salary | Annual compensation |
+| Job Family / Job / Position | Role classification |
+| Geography / Country / Location / Town or City | Location details |
+| Gender / Ethnic Group | Demographic attributes |
+| Organization / Organization Class / Organization Type | Org hierarchy |
+| Training Hours/Cost/Score/Duration/# Course | Training metrics (overall + by type: Technical, Leadership, Sales) |
+| Age of Primary Truck | Age of assigned fleet vehicle |
+| Miles Driven TTM (k) | Miles driven in trailing twelve months (thousands) |
+| $E-# Separation | Predicted probability of separation |
+
+## Sample Data
+- Rows cover employees across Europe and North America in Production jobs.
+- Many employees have zero training (0 hours, 0 cost).
+
+## Relationships
+- `Employee_ID` → `Employee.Employee_ID`
+- Overlaps dimensionally with `HR_Fact` and `Workforce_Fact` but is a standalone analytical extract

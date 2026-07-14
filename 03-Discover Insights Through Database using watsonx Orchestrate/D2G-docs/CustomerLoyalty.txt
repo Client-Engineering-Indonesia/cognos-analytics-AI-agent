@@ -1,0 +1,37 @@
+# CustomerLoyalty
+
+## Overview
+A wide fact/analytical table combining product, customer, sales, and channel data with detailed revenue, cost, margin, discount, and RFM (Recency-Frequency-Monetary) loyalty scoring metrics. Used for customer segmentation and churn prediction.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID / Customer_ID | Customer reference |
+| Product_ID | FK to Products |
+| Date_ID | FK to Time |
+| Sales_ID | FK to Geography |
+| Channel_ID | FK to Channel |
+| Planned / Revenue / Gross Revenue / Variance / Variance % | Revenue planning vs actuals |
+| Costs / Margin / Margin % | Profitability |
+| Discount / Discount % | Discount applied |
+| Units Ordered / Units Shipped | Volume |
+| List Price / Sale Price / Unit Cost | Pricing |
+| OrderID | Order reference |
+| rfm_Recency / rfm_Frequency / rfm_Monetary | Raw RFM values |
+| Recency Score / Frequency Score / Monetary Score / RFM Score | RFM scoring (1–5 scale) |
+| Churned | Churn flag (0/1) |
+| $N-Churned / $NC-Churned / $RP-Churned | Churn probability scores |
+| PossibleRevenueLoss | Estimated revenue at risk from churn |
+| Product Category/Type, Customer Type, Credit Rating, etc. | Embedded dimension attributes |
+
+## Sample Data
+- All sample rows show Product "Computer Accessories" across different customers.
+- RFM scores vary widely (e.g. 122, 455, 155) indicating diverse loyalty segments.
+- Churned = 0 for all samples but churn probability varies (0.0002 to 0.46).
+
+## Relationships
+- `Customer_ID` → `Customer.Customer_ID`
+- `Product_ID` → `Products.Product_ID`
+- `Date_ID` → `Time.Date_ID`
+- `Sales_ID` → `Geography.Sales_ID`
+- `Channel_ID` → `Channel.Channel_ID`

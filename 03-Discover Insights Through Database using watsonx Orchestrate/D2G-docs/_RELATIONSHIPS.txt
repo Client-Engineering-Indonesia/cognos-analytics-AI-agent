@@ -1,0 +1,160 @@
+# D2G Database — Table Relationships & Subject Areas
+
+## Overview
+The D2G database is a **multi-subject-area analytical database** covering Sales, Customer Service, Finance, HR/Workforce, Procurement, IT/BI Audit, and Sales Pipeline. It follows a **star schema** pattern with shared dimension tables.
+
+---
+
+## Shared Dimension Tables
+
+| Dimension | Key Column | Used By Fact Tables |
+|---|---|---|
+| [`Time`](Time.md) | `Date_ID` | Call_Center_Fact, Customer_Service_Fact, CustomerLoyalty, IT_Fact, Order_Fact, Pipeline_Fact, Procurement_Fact, Recruiting_Fact, Training_Fact |
+| [`HR_Calendar`](HR_Calendar.md) | `Date_ID` | HR_Fact, Workforce_Fact |
+| [`Fiscal_Period`](Fiscal_Period.md) | `Date_ID` | Finance_Fact |
+| [`Customer`](Customer.md) | `Customer_ID` | Call_Center_Fact, Customer_Service_Fact, CustomerLoyalty, Finance_Fact, Order_Fact, Pipeline_Fact |
+| [`Products`](Products.md) | `Product_ID` | Call_Center_Fact, Customer_Service_Fact, CustomerLoyalty, Order_Fact, Pipeline_Fact, Procurement_Fact |
+| [`Employee`](Employee.md) | `Employee_ID` | HR_Fact, Workforce_Fact, Attrition_Study, Recruiting_Fact, Training_Fact |
+| [`Geography`](Geography.md) | `Sales_ID` | Customer_Service_Fact, CustomerLoyalty, Order_Fact, Pipeline_Fact |
+| [`Organization`](Organization.md) | `Org_ID` | Finance_Fact, Procurement_Fact |
+| [`Vendor`](Vendor.md) | `Vendor_ID` | Finance_Fact, Procurement_Fact |
+| [`Channel`](Channel.md) | `Channel_ID` | CustomerLoyalty, Order_Fact |
+
+---
+
+## Subject Area Map
+
+### 📞 Call Center
+```
+Call_Center_Fact
+  ├── Agents          (Agent_ID)
+  ├── Time            (Date_ID)
+  ├── Group           (Group_ID)
+  ├── Products        (Product_ID)
+  ├── Call_Severity   (Call_Severity_ID)
+  ├── Service_Type    (Service_Type_ID)
+  └── Customer        (Customer_ID)
+```
+
+### 🛒 Sales & Orders
+```
+Order_Fact
+  ├── Time       (Date_ID)
+  ├── Products   (Product_ID)
+  ├── Customer   (Customer_ID)
+  ├── Geography  (Sales_ID)
+  └── Channel    (Channel_ID)
+
+CustomerLoyalty  [denormalized — embeds Customer + Product + RFM scoring]
+  ├── Time       (Date_ID)
+  ├── Products   (Product_ID)
+  ├── Customer   (Customer_ID)
+  ├── Geography  (Sales_ID)
+  └── Channel    (Channel_ID)
+```
+
+### 📊 Sales Pipeline
+```
+Pipeline_Fact
+  ├── Time        (Date_ID)
+  ├── Customer    (Customer_ID)
+  ├── Products    (Product_ID)
+  ├── Geography   (Sales_ID)
+  ├── Sales_Stage (Stage_ID)
+  └── Lead        (Lead_ID)
+```
+
+### 🎧 Customer Service
+```
+Customer_Service_Fact
+  ├── Time      (Date_ID)
+  ├── Products  (Product_ID)
+  ├── Customer  (Customer_ID)
+  └── Geography (Sales_ID)
+```
+
+### 💰 Finance
+```
+Finance_Fact
+  ├── Fiscal_Period  (Date_ID)
+  ├── Customer       (Customer_ID)
+  ├── Organization   (Org_ID)
+  └── Vendor         (Vendor_ID)
+```
+
+### 🏭 Procurement
+```
+Procurement_Fact
+  ├── Time          (Date_ID)
+  ├── Organization  (Org_ID)
+  ├── Vendor        (Vendor_ID)
+  ├── Products      (Product_ID)
+  └── Employee      (Buyer_ID → Employee_ID)
+```
+
+### 👥 HR & Workforce
+```
+HR_Fact
+  ├── HR_Calendar  (Date_ID)
+  └── Employee     (Employee_ID)
+
+Workforce_Fact   [superset of HR_Fact + succession planning]
+  ├── HR_Calendar  (Date_ID)
+  └── Employee     (Employee_ID)
+
+Attrition_Study  [denormalized analytical extract]
+  └── Employee     (Employee_ID)
+```
+
+### 🎓 Training
+```
+Training_Fact
+  ├── Time              (Date_ID)
+  ├── Course            (Course_ID)
+  ├── Employee          (Employee_ID)
+  └── Enrollment_Status (Enrollment_Status)
+```
+
+### 🧑‍💼 Recruiting
+```
+Recruiting_Fact
+  ├── Time       (Date_ID)
+  ├── Employee   (Employee_ID)
+  ├── Applicant  (Application_ID → Applicant_ID)
+  └── Recruiting (Recruiting_ID)
+```
+
+### 💻 IT / BI Audit
+```
+IT_Fact       → Time (Day_ID)
+Run_Jobs      → standalone log (no FK joins)
+Run_Reports   → standalone log (no FK joins)
+View_Reports  → standalone log (no FK joins)
+User_Logins   → standalone log (no FK joins)
+```
+
+### 📈 Forecasting (Standalone)
+```
+ReturnsForecast  → no FK joins (pre-aggregated time-series)
+RevenueForecast  → no FK joins (pre-aggregated time-series)
+Fleet_Operations → empty table (no data)
+```
+
+---
+
+## Key Observations
+
+1. **Three separate time dimensions** coexist:
+   - `Time` — daily calendar (2014+), for operational facts
+   - `HR_Calendar` — monthly calendar (2009+), for HR facts
+   - `Fiscal_Period` — fiscal periods (FY09+), for finance facts
+
+2. **Geography doubles as a Sales Rep dimension** — `Sales_ID` maps to a sales rep + territory, not just a location.
+
+3. **CustomerLoyalty is a pre-joined analytical table** — it embeds Customer and Product attributes directly, making it faster for self-service analytics but denormalized.
+
+4. **Attrition_Study is a wide analytical extract** — combines HR, training, and fleet data in one row; not a normalized fact table.
+
+5. **BI Audit tables (Run_Jobs, Run_Reports, View_Reports, User_Logins)** are standalone logs from the Cognos BI platform — they have no joins to business fact tables.
+
+6. **Fleet_Operations is empty** — may be a placeholder for future data.

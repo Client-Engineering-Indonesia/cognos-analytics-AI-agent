@@ -1,0 +1,22 @@
+# Sales_Stage
+
+## Overview
+A small lookup/dimension table for sales pipeline stages. Defines the 4 stages an opportunity progresses through before closing.
+
+## Columns
+| Column | Description |
+|---|---|
+| ID | Surrogate primary key |
+| Stage_ID | Business key for the stage |
+| Sales Stage | Stage label (Stage 1 through Stage 4) |
+
+## Sample Data
+| Stage_ID | Sales Stage |
+|---|---|
+| 1 | Stage 1 |
+| 2 | Stage 2 |
+| 3 | Stage 3 |
+| 4 | Stage 4 |
+
+## Relationships
+- `Stage_ID` → referenced by `Pipeline_Fact.Stage_ID`
